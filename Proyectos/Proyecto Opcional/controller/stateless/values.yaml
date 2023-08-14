@@ -1,0 +1,7 @@
+config:
+  controller:
+    replicas: 1
+    name: controller
+    output_queue: "TO_CRAWLER"
+    image: aaronortijimn/controller
+    interval: 1

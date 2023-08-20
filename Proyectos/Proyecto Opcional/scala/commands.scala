@@ -63,7 +63,16 @@ df.createOrReplaceTempView("es")    // Nombre temporal para la vista de "df"
 //val prueba1 = spark.sql("SELECT CONCAT_WS(', ', TRIM(SPLIT(col.hostname, ' ')[1]), TRIM(SPLIT(col.hostname, ' ')[0])) as hostname FROM (SELECT EXPLODE(data) FROM es)") // Esta prueba no funciona porque no hay nada separado por un ' '
 spark.sql("SELECT CONCAT_WS(', ', TRIM(SPLIT(col.author_name, ' ')[1]), TRIM(SPLIT(col.author_name, ' ')[0])) as author_name FROM es").show
 
-//val prueba2 = spark.sql("SELECT --- as hostname FROM (SELECT EXPLODE(data) FROM es)")
+//val prueba2 = spark.sql(
+    "WITH CTE_Recursive as
+    (
+        SELECT 0
+        UNION ALL
+        SELECT n + 1
+        FROM CTE_Recursive
+        WHERE 
+    )
+as hostname FROM (SELECT EXPLODE(data) FROM es)")
 spark.sql("SELECT --- as author_inst FROM es").show
 
 //val prueba3 = spark.sql("SELECT INITCAP(TRIM(col.hostname)) as hostname FROM (SELECT EXPLODE(data) FROM es)")

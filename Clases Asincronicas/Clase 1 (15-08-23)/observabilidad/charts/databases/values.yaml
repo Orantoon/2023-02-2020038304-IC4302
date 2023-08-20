@@ -1,0 +1,52 @@
+# Mariadb
+mariadb:
+  enabled: true
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: "monitoring"
+
+# Elasticsearch
+elasticsearch:
+  enabled: true
+  replicas: 3
+  resources:
+    requests:
+      memory: 2Gi
+      cpu: 1
+  service:
+    annotations: {}
+    type: LoadBalancer
+
+# Mongodb
+mongodb:
+  enabled: true
+  architecture: standalone
+  replicaSet:
+    name: my-replica-set
+  persistence:
+    enabled: true
+    storageClass: standard
+    size: 10Gi
+
+# Postgresql-ha
+postgresql-ha:
+  enabled: true
+  postgresqlPassword: prueba
+  persistence:
+    storageClass: standard
+    size: 8Gi
+  replica:
+    count: 2
+    synchronousCommit: "on"
+
+# Mariadb-galera
+mariadb-galera:
+  enabled: true
+  mariadbRootPassword: prueba
+  persistence:
+    storageClass: standard
+    size: 10Gi
+  galera:
+    wsrepClusterAddress: "gcomm://node1,node2,node3"

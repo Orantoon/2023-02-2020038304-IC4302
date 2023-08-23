@@ -1,6 +1,6 @@
 // - ABRIR SPARK -
 
-cd /mnt/c/Users/david/Downloads/spark-2.4.8-bin-hadoop2.7/
+cd "/mnt/d/Tareas David/TEC/Semestre 8/Bases de Datos II/Bases_2/Proyectos/Proyecto Opcional/Descargas/spark-2.4.8-bin-hadoop2.7/"
 bin/spark-shell
 
 // - IMPORTS -
@@ -37,7 +37,7 @@ val conf = new SparkConf()
 conf.set("es.index.auto.create", "true")
 conf.set("es.nodes", "http://localhost:9200/")
 conf.set("es.net.http.auth.user", "elastic")
-conf.set("es.net.http.auth.pass", "90P63q2lBdt0te1DL6r12yGy")   // Cambiar contraseña
+conf.set("es.net.http.auth.pass", "I3n5IE2pfkH08A5v97R4DH9J")   // Cambiar contraseña
 conf.set("es.port", "9200")
 conf.set("es.nodes.wan.only", "true")
 
@@ -60,26 +60,27 @@ df.createOrReplaceTempView("es")    // Nombre temporal para la vista de "df"
 //spark.sql("SELECT col.hostname as hostname, col.msg as msg FROM (SELECT EXPLODE(data) FROM es)").saveToEs("datos")  // Consulta por las columnas "hostname" y "msg"; se guarda en el indice "datos"
 
 
+
 //val prueba1 = spark.sql("SELECT CONCAT_WS(', ', TRIM(SPLIT(col.hostname, ' ')[1]), TRIM(SPLIT(col.hostname, ' ')[0])) as hostname FROM (SELECT EXPLODE(data) FROM es)") // Esta prueba no funciona porque no hay nada separado por un ' '
 spark.sql("SELECT CONCAT_WS(', ', TRIM(SPLIT(col.author_name, ' ')[1]), TRIM(SPLIT(col.author_name, ' ')[0])) as author_name FROM es").show
 
-//val prueba2 = spark.sql(
-    "WITH CTE_Recursive as
-    (
-        SELECT 0
-        UNION ALL
-        SELECT n + 1
-        FROM CTE_Recursive
-        WHERE 
-    )
-as hostname FROM (SELECT EXPLODE(data) FROM es)")
+
+//val maxArraySize = spark.sql("SELECT MAX(size(SPLIT(col.hostname, ' '))) AS max_array_size FROM (SELECT EXPLODE(data) FROM es)").first().getAs[Int]("max_array_size")
+//val newColumns = (0 until maxArraySize).map(i => s"SPLIT(col.hostname, ' ')[${i}] AS inst${i + 1}").mkString(", ")
+
+//val prueba2 = spark.sql(s"SELECT id, ${selectColumns} FROM (SELECT EXPLODE(data) FROM es) LATERAL VIEW OUTER EXPLODE(SPLIT(col.hostname, ' ')) AS exploded_element")
+//prueba2.show()
 spark.sql("SELECT --- as author_inst FROM es").show
+
 
 //val prueba3 = spark.sql("SELECT INITCAP(TRIM(col.hostname)) as hostname FROM (SELECT EXPLODE(data) FROM es)")
 spark.sql("SELECT INITCAP(TRIM(col.category)) as category FROM es").show
 
+
 //val prueba4 = spark.sql("SELECT REPLACE(col.hostname, '-', '/') as hostname FROM (SELECT EXPLODE(data) FROM es)")
 spark.sql("SELECT REPLACE(col.rel_date, '-', '/') as rel_date FROM es").show
+
+
 
 // - QUERY FINAL -
 

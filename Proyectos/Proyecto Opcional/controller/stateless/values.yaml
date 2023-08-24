@@ -5,3 +5,9 @@ config:
     output_queue: "TO_CRAWLER"
     image: aaronortijimn/controller
     interval: 1
+  spacy:
+    replicas: 1
+    name: spacy
+    input_queue: "api_Crawler"
+    image: jesus2002/spacy
+    interval: 1

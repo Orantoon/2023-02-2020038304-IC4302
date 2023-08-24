@@ -22,8 +22,8 @@ spec:
             value: "stateful-rabbitmq"
           - name: EVENT_INTERVAL
             value: "{{ .Values.config.spacy.interval }}"
-          - name: OUTPUT_QUEUE
-            value: {{ .Values.config.spacy.output_queue }}
+          - name: INPUT_QUEUE
+            value: {{ .Values.config.spacy.input_queue }}
           - name: RABBITPASS
             valueFrom:
               secretKeyRef:
@@ -38,5 +38,5 @@ spec:
                 name: ic4302-es-elastic-user
                 key: elastic
                 optional: false
-          - name: ESINDEX
-            value: jobs
+          - name: augmented
+            value: augmented

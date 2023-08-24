@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.config.spacy.name }}
+  labels:
+    app: {{ .Values.config.spacy.name }}
+spec:
+  replicas: {{ .Values.config.spacy.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.config.spacy.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.config.spacy.name }}
+    spec:
+      containers:
+      - name: {{ .Values.config.spacy.name }}
+        image: {{ .Values.config.spacy.image }}
+        env:
+          - name: RABBITMQ
+            value: "stateful-rabbitmq"
+          - name: EVENT_INTERVAL
+            value: "{{ .Values.config.spacy.interval }}"
+          - name: OUTPUT_QUEUE
+            value: {{ .Values.config.spacy.output_queue }}
+          - name: RABBITPASS
+            valueFrom:
+              secretKeyRef:
+                name: stateful-rabbitmq
+                key: rabbitmq-password
+                optional: false 
+          - name: ESENDPOINT
+            value: ic4302-es-http
+          - name: ESPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ic4302-es-elastic-user
+                key: elastic
+                optional: false
+          - name: ESINDEX
+            value: jobs

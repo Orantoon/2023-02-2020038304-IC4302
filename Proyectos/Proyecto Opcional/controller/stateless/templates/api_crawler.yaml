@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.config.api_Crawler.name }}
+  labels:
+    app: {{ .Values.config.api_Crawler.name }}
+spec:
+  replicas: {{ .Values.config.api_Crawler.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.config.api_Crawler.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.config.api_Crawler.name }}
+    spec:
+      containers:
+      - name: {{ .Values.config.api_Crawler.name }}
+        image: {{ .Values.config.api_Crawler.image }}
+        env:
+          - name: RABBITMQ
+            value: "stateful-rabbitmq"
+          - name: EVENT_INTERVAL
+            value: "{{ .Values.config.api_Crawler.interval }}"
+          - name: OUTPUT_QUEUE
+            value: {{ .Values.config.api_Crawler.output_queue }}
+          - name: INPUT_QUEUE
+            value: {{ .Values.config.api_Crawler.input_queue }}  
+          - name: RABBITPASS
+            valueFrom:
+              secretKeyRef:
+                name: stateful-rabbitmq
+                key: rabbitmq-password
+                optional: false 
+          - name: ESENDPOINT
+            value: ic4302-es-http
+          - name: ESPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ic4302-es-elastic-user
+                key: elastic
+                optional: false
+          - name: ESINDEX
+            value: jobs

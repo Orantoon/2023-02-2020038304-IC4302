@@ -8,6 +8,6 @@ config:
   spacy:
     replicas: 1
     name: spacy
-    input_queue: "api_Crawler"
+    input_queue: "api_crawler"
     image: jesus2002/spacy
     interval: 1

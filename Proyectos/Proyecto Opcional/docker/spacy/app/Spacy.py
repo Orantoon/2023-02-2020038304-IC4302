@@ -18,7 +18,6 @@ def get_Entities(json):
     doc = nlp(json) #Aqui va el nombre del archivo que se va a analzar 
     entities = list()
 
-    doc = doc["data"]
     for ent in doc.ents:
         entities.append(ent)
     
@@ -27,7 +26,8 @@ def get_Entities(json):
 
 
 def callback(ch, method, properties, body):
-    entities_array = get_Entities(data.json)
+    json_object = json.loads(body)
+    entities_array = get_Entities(json_object["data"])
     resp = client.index(index=augmented, id=hashlib.md5(body).hexdigest(), document=entities_array)
     print(resp)
 

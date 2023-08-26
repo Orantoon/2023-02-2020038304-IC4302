@@ -6,8 +6,6 @@ from datetime import datetime
 import hashlib
 import json
 from elasticsearch import Elasticsearch
-
-
 import spacy
 
 def get_Entities(json):
@@ -31,6 +29,8 @@ def callback(ch, method, properties, body):
     resp = client.index(index=augmented, id=hashlib.md5(body).hexdigest(), document=entities_array)
     print(resp)
 
+es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+
 hostname = os.getenv('HOSTNAME')
 RABBIT_MQ=os.getenv('RABBITMQ')
 RABBIT_MQ_PASSWORD=os.getenv('RABBITPASS')
@@ -50,5 +50,5 @@ channel_input.queue_declare(queue=INPUT_QUEUE)
 channel_input.basic_consume(queue=INPUT_QUEUE, on_message_callback=callback, auto_ack=True)
 
 client = Elasticsearch("https://"+ESENDPOINT+":9200", basic_auth=("elastic", ESPASSWORD), verify_certs=False)
-
+#client.search(index=raw, body)
 channel_input.start_consuming()

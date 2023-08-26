@@ -5,6 +5,7 @@ import pika
 from datetime import datetime
 import hashlib
 import json
+from elasticsearch import Elasticsearch
 
 hostname = os.getenv('HOSTNAME')
 RABBIT_MQ=os.getenv('RABBITMQ')

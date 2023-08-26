@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.config.api_Crawler.name }}
+  name: {{ .Values.config.apicrawler.name }}
   labels:
-    app: {{ .Values.config.api_Crawler.name }}
+    app: {{ .Values.config.apicrawler.name }}
 spec:
-  replicas: {{ .Values.config.api_Crawler.replicas }}
+  replicas: {{ .Values.config.apicrawler.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.config.api_Crawler.name }}
+      app: {{ .Values.config.apicrawler.name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.config.api_Crawler.name }}
+        app: {{ .Values.config.apicrawler.name }}
     spec:
       containers:
-      - name: {{ .Values.config.api_Crawler.name }}
-        image: {{ .Values.config.api_Crawler.image }}
+      - name: {{ .Values.config.apicrawler.name }}
+        image: {{ .Values.config.apicrawler.image }}
         env:
           - name: RABBITMQ
             value: "stateful-rabbitmq"
           - name: EVENT_INTERVAL
-            value: "{{ .Values.config.api_Crawler.interval }}"
+            value: "{{ .Values.config.apicrawler.interval }}"
           - name: OUTPUT_QUEUE
-            value: {{ .Values.config.api_Crawler.output_queue }}
+            value: {{ .Values.config.apicrawler.output_queue }}
           - name: INPUT_QUEUE
-            value: {{ .Values.config.api_Crawler.input_queue }}  
+            value: {{ .Values.config.apicrawler.input_queue }}  
           - name: RABBITPASS
             valueFrom:
               secretKeyRef:

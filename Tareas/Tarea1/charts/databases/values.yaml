@@ -1,0 +1,119 @@
+mariadb:
+  enabled: false
+  architecture: replication
+  primary:
+    resources:
+      requests:
+        cpu: 500m
+        memory: 256Mi
+      limits: 
+        cpu: 1000m
+        memory: 500Mi        
+    persistence:
+      size: 1Gi
+  secondary:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 500m
+        memory: 256Mi
+      limits: 
+        cpu: 1000m
+        memory: 500Mi 
+    persistence:
+      size: 1Gi  
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: "monitoring"
+#posgresql-ha
+postgresql-ha:
+  enabled: false
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: "monitoring"
+  postgresql:
+    resources:
+      requests:
+        cpu: 250m
+        memory: 250Mi
+      limits:
+        cpu: 1000m
+        memory: 500Mi
+  persistence: 
+    size: 2Gi
+#mongodb
+mongodb:
+  enabled: false
+  metrics:
+    enabled: true
+    serviceMonitor: 
+      enabled: true
+      namespace: "monitoring"
+  architecture: replicaset
+  resources:
+    requests:
+      cpu: 250m
+      memory: 250Mi
+    limits:
+      cpu: 1000m
+      memory: 500Mi
+  persistence:
+    size: 2Gi
+#Postgresql
+postgresql:
+  enabled: true
+  global:
+    postgresql:
+      auth:
+        database: "postgresql"
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: "monitoring"
+  primary:
+    resources:
+      requests:
+        cpu: 500m
+      limits:
+        cpu: 1000m
+        memory: 500Mi
+#mariadb-galera
+mariadb-galera:
+  enabled: false
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: "monitoring"
+  resources:
+    requests:
+      cpu: 250m
+      memory: 250Mi
+    limits:
+      cpu: 1000m
+      memory: 500Mi
+  persistence:
+    size: 2Gi
+  replicaCount: 2
+#elasticsearch 
+elasticsearch:
+  enabled: false
+  master:
+    persistence:
+      size: 1Gi
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: "monitoring"
+      
+
+
+
+
+    

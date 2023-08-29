@@ -62,22 +62,33 @@ df.createOrReplaceTempView("es")    // Nombre temporal para la vista de "df"
 
 
 //val prueba1 = spark.sql("SELECT CONCAT_WS(', ', TRIM(SPLIT(col.hostname, ' ')[1]), TRIM(SPLIT(col.hostname, ' ')[0])) as hostname FROM (SELECT EXPLODE(data) FROM es)") // Esta prueba no funciona porque no hay nada separado por un ' '
+
+//spark.sql("SELECT CONCAT_WS(', ', TRIM(SPLIT('David Suarez', ' ')[1]), TRIM(SPLIT('David Suarez', ' ')[0])) as author_name").show()
 spark.sql("SELECT CONCAT_WS(', ', TRIM(SPLIT(col.author_name, ' ')[1]), TRIM(SPLIT(col.author_name, ' ')[0])) as author_name FROM es").show
 
 
-//val maxArraySize = spark.sql("SELECT MAX(size(SPLIT(col.hostname, ' '))) AS max_array_size FROM (SELECT EXPLODE(data) FROM es)").first().getAs[Int]("max_array_size")
-//val newColumns = (0 until maxArraySize).map(i => s"SPLIT(col.hostname, ' ')[${i}] AS inst${i + 1}").mkString(", ")
-
-//val prueba2 = spark.sql(s"SELECT id, ${selectColumns} FROM (SELECT EXPLODE(data) FROM es) LATERAL VIEW OUTER EXPLODE(SPLIT(col.hostname, ' ')) AS exploded_element")
+//val prueba2 = spark.sql(s"SELECT id, ${newColumns} FROM (SELECT EXPLODE(data) FROM es) LATERAL VIEW OUTER EXPLODE(SPLIT(col.hostname, ' ')) AS exploded_element")
 //prueba2.show()
-spark.sql("SELECT --- as author_inst FROM es").show
+
+spark.sql("SELECT map_from_arrays(keys, txt) AS txt, name, id FROM (SELECT sequence(1, size(split(txt, ','))) as keys, split(txt, ',') as txt, name, id FROM (SELECT \"hola, soy, Nereo\" as txt, \"Nereo\" as name, 56 as id))").withColumn("Fld1", $"txt".getItem("1")).show
+spark.sql("SELECT map_from_arrays(keys, txt) AS txt, name, id FROM 
+(SELECT sequence(1, size(split(txt, ','))) as keys, split(txt, ',') as txt, name, id FROM 
+(SELECT \"hola, soy, Nereo\" as txt, \"Nereo\" as name, 56 as id))").withColumn("Fld1", $"txt".getItem("1")).show
+
+spark.sql("SELECT SIZE(SPLIT(col.hostname, ', ')) as hostname FROM (SELECT EXPLODE(data) FROM es)").show
+
+val prueba2 = spark.sql("SELECT col.hostname AS hostname FROM (SELECT EXPLODE(data) FROM es) PIVOT (NULL FOR hostname IN )")
 
 
 //val prueba3 = spark.sql("SELECT INITCAP(TRIM(col.hostname)) as hostname FROM (SELECT EXPLODE(data) FROM es)")
+
+//spark.sql("SELECT INITCAP(TRIM(' esto es una prueba ')) as category FROM es").show
 spark.sql("SELECT INITCAP(TRIM(col.category)) as category FROM es").show
 
 
 //val prueba4 = spark.sql("SELECT REPLACE(col.hostname, '-', '/') as hostname FROM (SELECT EXPLODE(data) FROM es)")
+
+// spark.sql("SELECT REPLACE('20-12-2023', '-', '/') as rel_date FROM es").show
 spark.sql("SELECT REPLACE(col.rel_date, '-', '/') as rel_date FROM es").show
 
 

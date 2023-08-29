@@ -65,7 +65,7 @@ mongodb:
     size: 2Gi
 #Postgresql
 postgresql:
-  enabled: true
+  enabled: false
   global:
     postgresql:
       auth:
@@ -102,15 +102,25 @@ mariadb-galera:
   replicaCount: 2
 #elasticsearch 
 elasticsearch:
-  enabled: false
+  enabled: true
+  name: elasticsearch
+  version: 8.6.1
   master:
-    persistence:
-      size: 1Gi
-  metrics:
+    replicas: 1
+  data: 
+    replicas: 2
+#exporterElastic
+exporterelastic:
+  extraEnvSecrets:
+    ES_PASSWORD:
+      secret: elasticsearch-es-elastic-user
+      key: elastic
+      optional: false
+  es:
+    uri: http://elastic:$(ES_PASSWORD)@elasticsearch-es-http:9200
+  serviceMonitor:
     enabled: true
-    serviceMonitor:
-      enabled: true
-      namespace: "monitoring"
+    namespace: "monitoring"
       
 
 

@@ -1,0 +1,45 @@
+{{- if .Values.elasticsearch.enabled }}
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: {{ .Values.elasticsearch.name }}
+spec:
+  version: {{ .Values.elasticsearch.version }}
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true 
+  nodeSets:
+  - name: master
+    count: {{ .Values.elasticsearch.master.replicas }}
+    podTemplate:
+      spec:
+        containers:
+        - name: elasticsearch
+          resources:
+            requests:
+              memory: 2Gi
+              cpu: 1
+            limits:
+              memory: 2Gi
+    config:
+      node.roles: ["master"]
+      node.store.allow_mmap: false
+  - name: data
+    count: {{ .Values.elasticsearch.data.replicas }}
+    podTemplate:
+      spec:
+        containers:
+        - name: elasticsearch
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 1
+            limits:
+              memory: 1Gi
+    config:
+      node.roles: ["data"]
+      node.store.allow_mmap: false
+{{- end }}
+            
+   

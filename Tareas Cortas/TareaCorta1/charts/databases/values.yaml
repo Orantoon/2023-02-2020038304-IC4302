@@ -1,5 +1,5 @@
 mariadb:
-  enabled: false
+  enabled: false 
   architecture: replication
   primary:
     resources:
@@ -11,6 +11,10 @@ mariadb:
         memory: 500Mi        
     persistence:
       size: 1Gi
+    service:
+      type: NodePort
+      nodePorts:
+        mysql: "30200"
   secondary:
     replicaCount: 2
     resources:
@@ -21,7 +25,11 @@ mariadb:
         cpu: 1000m
         memory: 500Mi 
     persistence:
-      size: 1Gi  
+      size: 1Gi 
+    service:
+      type: NodePort
+      nodePorts:
+        mysql: "30300" 
   metrics:
     enabled: true
     serviceMonitor:
@@ -45,6 +53,10 @@ postgresql-ha:
         memory: 500Mi
   persistence: 
     size: 2Gi
+  service:
+    type: NodePort
+    nodePorts:
+      postgresql: "30101"
 #mongodb
 mongodb:
   enabled: false
@@ -63,6 +75,13 @@ mongodb:
       memory: 500Mi
   persistence:
     size: 2Gi
+  externalAccess:
+    enabled: true
+    service:
+      type: NodePort
+      nodePorts:
+        - 30001
+        - 30002
 #Postgresql
 postgresql:
   enabled: false
@@ -76,6 +95,10 @@ postgresql:
       enabled: true
       namespace: "monitoring"
   primary:
+    service:
+      type: NodePort
+      nodePorts:
+        postgresql: "30100"
     resources:
       requests:
         cpu: 500m
@@ -100,6 +123,10 @@ mariadb-galera:
   persistence:
     size: 2Gi
   replicaCount: 2
+  service:
+    type: NodePort
+    nodePorts:
+      mysql: "30040"
 #elasticsearch 
 elasticsearch:
   enabled: true
@@ -108,7 +135,7 @@ elasticsearch:
   master:
     replicas: 1
   data: 
-    replicas: 2
+    replicas: 1
 #exporterElastic
 exporterelastic:
   extraEnvSecrets:
@@ -121,7 +148,10 @@ exporterelastic:
   serviceMonitor:
     enabled: true
     namespace: "monitoring"
-      
+kibana:
+  version: 8.6.1
+  replicas: 1
+  name: elasticsearch     
 
 
 

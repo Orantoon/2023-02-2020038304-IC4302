@@ -1,0 +1,5 @@
+config:
+  flaskes:
+    replicas: 1
+    name: flaskes
+    image: aaronortijimn/flaskes

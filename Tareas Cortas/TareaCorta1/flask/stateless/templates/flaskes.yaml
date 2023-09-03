@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.config.flaskes.name }}
+  labels:
+    app: {{ .Values.config.flaskes.name }}
+spec:
+  replicas: {{ .Values.config.flaskes.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.config.flaskes.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.config.flaskes.name }}
+    spec:
+      containers:
+      - name: {{ .Values.config.flaskes.name }}
+        image: {{ .Values.config.flaskes.image }}
+        env:
+          - name: ESENDPOINT
+            value: elasticsearch-es-http
+          - name: ESPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: elasticsearch-es-elastic-user
+                key: elastic
+                optional: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{  .Values.config.flaskes.name }}
+spec:
+  selector: 
+    app: {{  .Values.config.flaskes.name }}
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30127
+  type: NodePort

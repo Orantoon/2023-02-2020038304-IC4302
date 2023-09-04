@@ -1,4 +1,5 @@
 package videogamedb;
+
 //Dependencias necesarias de java con la version de Gatling
 import io.gatling.javaapi.core.*;
 import io.gatling.javaapi.http.*;
@@ -15,7 +16,7 @@ public class videogamedb extends Simulation{
     //Http Configuración
     private HttpProtocolBuilder httpProtocol = http
             .baseUrl( "http://localhost:30127")
-            .acceptHeader("application/json") //Encabezado
+            .acceptHeader("application/json") // Encabezado / acepta JSONs
             .contentTypeHeader("application/json"); // Configurando del  tipo de encabezado
 
 

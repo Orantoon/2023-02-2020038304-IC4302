@@ -1,8 +1,20 @@
 {
+  "abilities": "#{abilities}",
+  "base_experience": "#{base_experience}",
+  "forms": "#{forms}",
+  "game_indices": "#{game_indices}",
+  "height": "#{height}",
+  "held_items": "#{held_items}",
   "id": "#{id}",
+  "is_default": "#{is_default}",
+  "location_area_encounters": "#{location_area_encounters}",
+  "moves": "#{moves}",
   "name": "#{name}",
-  "relaseDate": "#{relaseDate}",
-  "reviewScore": "#{reviewScore}",
-  "category": "#{category}",
-  "rating": "#{rating}"
+  "order": "#{order}",
+  "past_types": "#{past_types}",
+  "species": "#{species}",
+  "sprites": "#{sprites}",
+  "stats": "#{stats}",
+  "types": "#{types}",
+  "weight": "#{weight}"
 }

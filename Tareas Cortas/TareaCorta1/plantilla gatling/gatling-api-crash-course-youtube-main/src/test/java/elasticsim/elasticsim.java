@@ -27,7 +27,7 @@ public class elasticsim extends Simulation{
     //-----------------------------------------
 
     // Feed de datos de prueba
-    private static FeederBuilder.FileBased<Object> jsonFeeder = jsonFile("data/gameJsonFile.json").random();
+    private static FeederBuilder.FileBased<Object> jsonFeeder = jsonFile("data/content.json").random();
 
     public void before(){
         System.out.printf("Running test %d users%n", USER_COUNT);
@@ -45,12 +45,12 @@ public class elasticsim extends Simulation{
 
     private  static ChainBuilder borrarRegistro =
             exec(http("Borrar Registro - #{name}")
-                    .delete("/borrar/#{id}"));
+                    .delete("/borrar/#{name}"));
 
     private  static ChainBuilder actualizarRegistro =
             feed(jsonFeeder)
                     .exec(http("Actualizar Registro - #{name}")
-                            .put("/actualizar/#{id}")
+                            .put("/actualizar/#{name}")
                             .body(ElFileBody("bodies/newGameTemplate.json")).asJson());
 
     private  static ChainBuilder busquedaRegistro =
@@ -70,11 +70,12 @@ public class elasticsim extends Simulation{
     private ScenarioBuilder scn = scenario( "Elasticsearch Stress Test") // Llama todos los metodos
             .exec(crearRegistro)
             .pause(2)  //pausa por 2 segundos
-            .exec(borrarRegistro)
-            .pause(2)
             .exec(actualizarRegistro)
             .pause(2)
-            .exec(busquedaRegistro);
+            .exec(busquedaRegistro)
+            .pause(2)
+            .exec(borrarRegistro);
+
             //Scenario listo
 
     //-----------------------------------------

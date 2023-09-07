@@ -1,0 +1,44 @@
+{{- if .Values.config.flaskmg.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.config.flaskmg.name }}
+  labels:
+    app: {{ .Values.config.flaskmg.name }}
+spec:
+  replicas: {{ .Values.config.flaskmg.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.config.flaskmg.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.config.flaskmg.name }}
+    spec:
+      containers:
+      - name: {{ .Values.config.flaskmg.name }}
+        image: {{ .Values.config.flaskmg.image }}
+        env:
+          - name: ESENDPOINT
+            value: databases-mongodb
+          - name: ESPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: databases-mongodb
+                key: mongodb-root-password
+                optional: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{  .Values.config.flaskmg.name }}
+spec:
+  selector: 
+    app: {{  .Values.config.flaskmg.name }}
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30117
+  type: NodePort
+{{- end }}

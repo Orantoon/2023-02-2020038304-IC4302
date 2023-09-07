@@ -1,4 +1,4 @@
-package elasticsim;
+package pruebas;
 
 //Dependencias necesarias de java con la version de Gatling
 import io.gatling.javaapi.core.*;
@@ -10,18 +10,18 @@ import java.security.PublicKey;
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 
-public class elasticsim extends Simulation{
+public class pruebas extends Simulation{
 
     //Http Configuración
     private HttpProtocolBuilder httpProtocol = http
-            .baseUrl( "http://localhost:30127")
+            .baseUrl( "http://localhost:30117")
             .acceptHeader("application/json") // Encabezado / acepta JSONs
             .contentTypeHeader("application/json"); // Configurando del  tipo de encabezado
 
     //-----------------------------------------
 
     //Runtime parameters
-    private static final int USER_COUNT = Integer.parseInt(System.getProperty("USERS", "10000"));   // Cantidad de suarios para las pruebas
+    private static final int USER_COUNT = Integer.parseInt(System.getProperty("USERS", "5"));   // Cantidad de suarios para las pruebas
     private static final int RAMP_DURATION = Integer.parseInt(System.getProperty("USERS", "30"));   // Tiempo de pruebas
 
     //-----------------------------------------
@@ -76,7 +76,7 @@ public class elasticsim extends Simulation{
             .pause(2)
             .exec(borrarRegistro);
 
-            //Scenario listo
+    //Scenario listo
 
     //-----------------------------------------
 

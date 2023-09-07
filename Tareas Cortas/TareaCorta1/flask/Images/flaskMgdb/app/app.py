@@ -2,10 +2,13 @@ from flask import Flask, request, jsonify, Response
 #from pymongo import MongoClient
 from flask_pymongo import PyMongo
 from bson import json_util
+import os
 
 app = Flask(__name__)
 #app.config['MONGO_URI']=('mongodb://root:IGhLIDuuwlg@localhost:30003/pruebas?authSource=admin&replicaSet=HzMwwggsMn')
-app.config['MONGO_URI']=('mongodb://root:1klJ7bf06N@localhost:30147/pruebas?authSource=admin')
+ESENDPOINT = os.getenv('ESENDPOINT')
+ESPASSWORD= os.getenv('ESPASSWORD')
+app.config['MONGO_URI']=(f'mongodb://root:{ESPASSWORD}@{ESENDPOINT}:27017/pruebas?authSource=admin')
 mongo = PyMongo(app)
 
 
@@ -31,24 +34,25 @@ def obtenerUsuarios():
     response = json_util.dumps(users)
     return Response(response, mimetype='application/json')
 
-@app.route('/buscar/<nombre>', methods=['GET'])
-def buscarNombre(nombre):
-    print(type(nombre))
-    users= mongo.db.users.find({'name': nombre})
+@app.route('/buscar/<id>', methods=['GET'])
+def buscarNombre(id):
+    print(type(id))
+    users= mongo.db.users.find_one({'id': int(id)})
     response = json_util.dumps(users)
+    print(response)
     return Response(response, mimetype='application/json')
 @app.route('/borrar/<nombre>', methods=['DELETE'])
 def eliminar(nombre):
     mongo.db.users.delete_one({'name': nombre})
     Response= {'message': f'Se elimino al usuario {nombre}'}
     return Response
-@app.route('/actualizar/<id>', methods=['PUT'])
-def actualizar(id):
+@app.route('/actualizar/<name>', methods=['PUT'])
+def actualizar(name):
     ident = request.json['id']
     name = request.json['name']
     url = request.json['url']
     if ident and name and url:
-        mongo.db.users.update_one({'id': int(id)}, {'$set': {
+        mongo.db.users.update_one({'name': name}, {'$set': {
             'id': ident,
             'name': name,
             'url': url
@@ -56,4 +60,4 @@ def actualizar(id):
         return jsonify({'Mensaje': 'Se actualizo el nombre'})
 
 if __name__ =="__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug= True)

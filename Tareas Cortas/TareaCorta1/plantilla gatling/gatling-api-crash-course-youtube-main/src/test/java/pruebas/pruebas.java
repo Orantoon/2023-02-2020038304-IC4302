@@ -21,7 +21,7 @@ public class pruebas extends Simulation{
     //-----------------------------------------
 
     //Runtime parameters
-    private static final int USER_COUNT = Integer.parseInt(System.getProperty("USERS", "5"));   // Cantidad de suarios para las pruebas
+    private static final int USER_COUNT = Integer.parseInt(System.getProperty("USERS", "1000"));   // Cantidad de suarios para las pruebas
     private static final int RAMP_DURATION = Integer.parseInt(System.getProperty("USERS", "30"));   // Tiempo de pruebas
 
     //-----------------------------------------

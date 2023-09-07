@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, Response
 from flask_pymongo import PyMongo
 from bson import json_util
 import os
+import json
 
 app = Flask(__name__)
 #app.config['MONGO_URI']=('mongodb://root:IGhLIDuuwlg@localhost:30003/pruebas?authSource=admin&replicaSet=HzMwwggsMn')
@@ -37,10 +38,20 @@ def obtenerUsuarios():
 @app.route('/buscar/<id>', methods=['GET'])
 def buscarNombre(id):
     print(type(id))
-    users= mongo.db.users.find_one({'id': int(id)})
+    users= mongo.db.users.find_one({'id': id})
     response = json_util.dumps(users)
-    print(response)
-    return Response(response, mimetype='application/json')
+    print(type(response))
+    if response != "null":
+        json_object= json.loads(response)
+        message = {
+            'id': json_object['id'],
+            'name': json_object['name'],
+            'url': json_object['url']
+            }
+        print(message)
+        return jsonify(message)
+    else:
+        return jsonify({'message': 'Not Found'})
 @app.route('/borrar/<nombre>', methods=['DELETE'])
 def eliminar(nombre):
     mongo.db.users.delete_one({'name': nombre})

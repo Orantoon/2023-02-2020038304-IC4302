@@ -19,13 +19,11 @@ asdf
 
 asdf
 
-*Aplicación Intermediaria (Flask y Prometheus)*
+## Aplicación Intermediaria (Flask y Prometheus)
 
 asdf
 
-*Grafana*
-
-asdf
+## Grafana
 
 ## Gatling
 

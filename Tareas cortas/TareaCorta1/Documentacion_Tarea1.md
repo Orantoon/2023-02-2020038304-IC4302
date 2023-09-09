@@ -61,6 +61,35 @@ y "values.yaml" (es muy grande para adjuntar una imagen).
 
 Para la aplicación intermediaria se creó la carpeta "flask" la cual contiene un Helm Chart llamado "stateless" el cual contiene la herramienta Flask que se utilizó para exponer métricas con Prometheus donde se utiliza un servicio tipo "ClusterIP".
 
+<ins>**IMPORTANTE**</ins>
+
+Es necesario instalar unas dependencias para que funcione las imagenes de flask para las bases de datos, todas tienen que estar instalado en cmd powershell
+
+```sh
+pip install psycopg2-binary Flask-SQLAlchemy
+```
+```sh
+pip install flask
+```
+```sh
+pip install elasticsearch
+```
+```sh
+pip install prometheus_client
+```
+```sh
+pip install werkzeug
+```
+```sh
+pip install mysql-connector-python
+```
+```sh
+pip install flask_sqlalchemy
+```
+```sh
+pip install sqlalchemy
+```
+
 ---
 
 <ins>**Grafana**</ins>
@@ -250,6 +279,18 @@ En este apartado en comparación a los anteriores, como se tuvo que realizar un 
 En este grafico de Gatling, se deseaba observar como respondía con 4000 usuarios, y no es tan constante, hay más picos en comparación con los 3000 usuarios. La cantidad de los request no se mantenía.
 
 ![Mongo2](/imagenes/elastic18.jpg)
+
+* **Pruebas en MariaDB**
+Las pruebas de MariaDB no pudieron ejecutadas por problemas de conexion, el codigo de MariaDB funciona al igual que la implementacion con flask, tambien esta configurado el template y la conexion con values estan. Al igual las pruebas internas con postman funcionan pero dieron error las pruebas externas con gaitlin no se pudo hacer la conexion aunque el puerto de la base de datos estaba activado no se pudo conectar. Fue el unico error que se tuvo.
+
+* **Pruebas en MariaDB Galera**
+Las pruebas de MariaDB no pudieron ejecutadas por problemas de conexion, el codigo de MariaDB Galera funciona al igual que la implementacion con flask, tambien esta configurado el template y la conexion con values estan. Al igual las pruebas internas con postman funcionan pero dieron error las pruebas externas con gaitlin no se pudo hacer la conexion aunque el puerto de la base de datos estaba activado no se pudo conectar. Fue el unico error que se tuvo.
+
+* **Pruebas en PostgreSQL**
+Las pruebas de MariaDB no pudieron ejecutadas por problemas de conexion, el codigo de PostgreSQL funciona al igual que la implementacion con flask, tambien esta configurado el template y la conexion con values estan. Al igual las pruebas internas con postman funcionan pero dieron error las pruebas externas con gaitlin no se pudo hacer la conexion aunque el puerto de la base de datos estaba activado no se pudo conectar. Fue el unico error que se tuvo.
+
+* **Pruebas en PostgreSQL HA**
+Las pruebas de MariaDB no pudieron ejecutadas por problemas de conexion, el codigo de PostgreSQL HA funciona al igual que la implementacion con flask, tambien esta configurado el template y la conexion con values estan. Al igual las pruebas internas con postman funcionan pero dieron error las pruebas externas con gaitlin no se pudo hacer la conexion aunque el puerto de la base de datos estaba activado no se pudo conectar. Fue el unico error que se tuvo.
 
 
 ## **Conclusiones y recomendaciones**

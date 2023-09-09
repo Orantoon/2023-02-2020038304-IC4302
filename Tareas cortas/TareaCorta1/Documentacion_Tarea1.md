@@ -128,7 +128,128 @@ Luego de todos los métodos se utiliza una función la cual se llama *scenario*,
 
 ## **Pruebas de carga realizadas**
 
-asdf
+* **Pruebas en Mongo DB**
+  
+En esta primera prueba se usaron 1000 usuarios en 15 segundos de interacción, en el siguiente grafico se puede visualizar el CPU Process, que llega como hasta 3, se logran ver los picos de procesamientos, en el último se visualizan los 1000 usuarios, luego en el segundo grafico se logra ver los query operations y se pueden observar las pruebas de delete, insert, update y search. En el tercer grafico se logra observar el tiempo de ejecución, las conexiones disponibles y las conexiones abiertas que fueron 7.74. En la parte inferior se logra ver la memoria y básicamente se visualiza como se utiliza más la memoria virtual que usa 2.5GB.
+
+![Mongo](/imagenes/mongo 1.jpg)
+
+En esta segunda prueba se trabaja con 2000 usuarios y 15 segundos de respuesta, en el primer grafico se visualiza el CPU Process que llega a niveles de 2, en el apartado de query operations se hacen 60 operaciones por segundo, como lo son los delete, insert, update y search.
+
+En el apartado de operaciones se lleva una hora y cuarenta y tres minutos, se repiten las conexiones disponibles y las operaciones abiertas son de 9 y la memoria virtual 2.57GB.
+
+![Mongo1](/imagenes/mongo2.jpg)
+
+![Mongo2](/imagenes/mongo3.jpg)
+
+
+En las siguientes pruebas se trabaja con 3000 usuarios, se sigue el mismo rango del CPU que es de 2, en el apartado de operaciones llega a 80 operaciones por segundo con las pruebas de delete, insert, update y search. En el apartado de conexiones sigue en una hora cincuenta tres minutos, hay 838851 conexiones disponibles y 9 operaciones abiertas. Y la memoria no tuvo mucho cambio se mantiene en 2.57GB.
+
+![Mongo1](/imagenes/mongo4.jpg)
+
+![Mongo2](/imagenes/mongo5.jpg)
+
+
+Las pruebas siguientes se trabaja con 5000 usuarios en 15 segundos, no se presenta problemas, con las métricas del CPU con una medida de 5, en el apartado de query operations, ya se llega a las 125 operaciones por segundo, se logra ver como en este caso todas las operaciones se mantienen y se ve como baja con la velocidad de las operaciones.
+
+Con las conexiones se lleva una hora 60 minutos de las métricas, se tiene 838849 conexiones disponibles y 10.9 conexiones abiertas, ahora se puede observar como en la memoria virtual hubo un aumento a 20MB.
+
+![Mongo1](/imagenes/mongo6.jpg)
+
+![Mongo2](/imagenes/mongo7.jpg)
+
+
+Ahora las pruebas se realizan con 10 000 usuarios en 15 segundos, en el primer grafico se trabajó con Gatling, con Gatling se logran visualizar algunos problemas de conexiones, casi después de un minuto empiezan a haber problemas, y se observa cómo va bajando la velocidad de respuesta de los request y se ve muy lento, en la curva amarilla se logran ver los request que se están pidiendo y en la parte inferior la zona verde son lo que si se han logrado responder.
+
+![Mongo1](/imagenes/mongo8.jpg)
+
+Ahora se logra ver en el CPU hay un nivel de 9 de procesamiento, nos enfocamos en la parte de query operations se visualiza que algunas operaciones ya les cuesta, los inserts no tuvieorn problemas, como también los de búsqueda, los inserta tuvieron un mejor rendimiento, pero los demás si comenzaron a decaer tomando en cuenta que ya había búsqueda de por medio. En las métricas se tuvo 1,77 horas de trabajos, tiene 838836 conexiones disponibles y 24.3 conexiones abiertas. La memoria ya pasó de 2.57GB a 2.67GB, ahora se nota más el incremento.
+
+![Mongo2](/imagenes/mongo9.jpg)
+
+Luego de trabajar con 10 000 usuarios no se podía seguir, por lo tanto, se realizó un reinicio.
+Los inserts siguieron teniendo buen rendimiento, pero siguen un poco lentas en comparación con las pruebas anteriores, completar los querys si lleva mucho tiempo.
+
+![Mongo2](/imagenes/mongo10.jpg)
+
+En la siguiente imagen, el grafico de query operations, hubo altos picos de inserción, la parte de actualización, de borrado y búsqueda si se genera un poco más de dificultad para realizarlas. La memoria virtual lleva ya 2.61GB.
+
+![Mongo2](/imagenes/mongo11.jpg)
+
+![Mongo2](/imagenes/mongo12.jpg)
+
+---
+* **Pruebas en Elasticsearch**
+
+Para comenzar se están trabajando con 1000 usuario en 15 segundos, ahora se puede visualizar el CPU percent, el primer pico seria cuando se inicializa en elasticsearch. Ahora podemos visualizar los nodos que sería solo 1, los data nodos también son 1, se tienen 656 File Descriptors, el cluster health está en 23.
+
+![Mongo2](/imagenes/elastic1.jpg)
+
+En la siguiente imagen se tiene el CPU memory, donde la memoria usada se ven unos pequeños picos.
+
+![Mongo2](/imagenes/elastic2.jpg)
+
+En esta imagen se presentan los documentos y se logra visualizar como aumentan la cantidad de nodos con documentos, y en los documentos indexados hay un pico muy grande, similar al de borrado.
+
+![Mongo2](/imagenes/elastic3.jpg)
+
+Par las siguientes pruebas se tienen 2000 usuarios en 15 segundos, el CPU percent está llegando a 20%, el cluster healt está en 23, los open file descriptors se tienen 652, también se tienen 12 active primary shards, de igual forma 12 active shards.
+
+![Mongo2](/imagenes/elastic4.jpg)
+
+En los documentos eliminados se pudo ver muy poco incremento y documentos unidos se logra ver más altos que los anteriores.  
+
+![Mongo2](/imagenes/elastic5.jpg)
+
+En la siguiente imagen se logra observar un pico muy grande
+
+![Mongo2](/imagenes/elastic6.jpg)
+
+
+En las siguientes pruebas se trabajó con 3000 usuarios en 15 segundos. Se puede destacar que ahora se presentaron algunos problemas para procesar los request, el porcentaje del CPU se encuentra en 20%, el cluster healt se mantiene comparándolo con el anterior, los file descriptors ya se encuentran en 660, la memoria se encuentra en un 76.2%.
+
+![Mongo2](/imagenes/elastic7.jpg)
+
+En la siguiente imagen se logra observar el porcentaje de carga que se mantiene. 
+
+![Mongo2](/imagenes/elastic8.jpg)
+
+En la siguiente imagen que sería el apartado de documentos, el contador de documentos en nodos aumentó a 4000, en los indexados se llegó a 600.
+
+![Mongo2](/imagenes/elastic9.jpg)
+
+![Mongo2](/imagenes/elastic10.jpg)
+
+En el siguiente grafico de Gatling presentó problemas, debido a que al principio funcionaba todo bien, pero a cierta cantidad de usuarios, comenzó a disminuir la velocidad de respuesta del servidor, y llega a niveles muy bajos, adicionando que la respuesta es demasiado lenta, cuando se trabaja con 3000 usuarios.
+
+![Mongo2](/imagenes/elastic11.jpg)
+
+En la siguiente prueba se realizó un cambio muy grande con las métricas, tomando en cuenta que se trabajó de nuevo con 3000 usuarios, pero se agregó más el tiempo de respuesta a un minuto, para lograr visualizar algún aumento, el margen de error se mantuvo, las respuestas seguían un poco lentas, pero en ciertos momentos si hay un pico positivo y puede responder a algunas, dos minutos después se pudo ver una respuesta más rápida. A pesar de que se tuvo que reiniciar trabó de buena forma tomando en cuenta que se le agregó más tiempo.
+
+![Mongo2](/imagenes/elastic12.jpg)
+
+![Mongo2](/imagenes/elastic13.jpg)
+
+
+Para estas últimas pruebas se trabajó con 4000 usuarios y de igual forma con un minuto de tiempo, estas pruebas se realizaron debido a que con 3000 usuarios hubieron fallas, se queria ver el comportamiento con 4000 usuarios.
+
+Como se logra ver en la primera imagen, el porcentaje del CPU es 20, el cluster healt se mantiene en 23, el uso de memoria es de un 65.3%, hay 641 file descriptors.
+
+![Mongo2](/imagenes/elastic14.jpg)
+
+El uso de memoria como se visualiza en esta imagen es muy importante, no tuvo mucho incremento.
+
+![Mongo2](/imagenes/elastic15.jpg)
+
+![Mongo2](/imagenes/elastic16.jpg)
+
+En este apartado en comparación a los anteriores, como se tuvo que realizar un reincido se logra ver varias diferencias, el contador de documentos por nodo va por 3000, y documentos indexados se llevan 60, y documentos eliminados 92.
+
+![Mongo2](/imagenes/elastic17.jpg)
+
+En este grafico de Gatling, se deseaba observar como respondía con 4000 usuarios, y no es tan constante, hay más picos en comparación con los 3000 usuarios. La cantidad de los request no se mantenía.
+
+![Mongo2](/imagenes/elastic18.jpg)
 
 
 ## **Conclusiones y recomendaciones**

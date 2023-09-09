@@ -288,7 +288,7 @@ Las pruebas de MariaDB no pudieron ejecutadas por problemas de conexion, el codi
 ---
 
 * **Pruebas en MariaDB Galera**
-Las pruebas de MariaDB no pudieron ejecutadas por problemas de conexion, el codigo de MariaDB Galera funciona al igual que la implementacion con flask, tambien esta configurado el template y la conexion con values estan. Al igual las pruebas internas con postman funcionan pero dieron error las pruebas externas con gaitlin no se pudo hacer la conexion aunque el puerto de la base de datos estaba activado no se pudo conectar. Fue el unico error que se tuvo.
+Las pruebas de MariaDB Galera no pudieron ejecutadas por problemas de conexion, el codigo de MariaDB Galera funciona al igual que la implementacion con flask, tambien esta configurado el template y la conexion con values estan. Al igual las pruebas internas con postman funcionan pero dieron error las pruebas externas con gaitlin no se pudo hacer la conexion aunque el puerto de la base de datos estaba activado no se pudo conectar. Fue el unico error que se tuvo.
 
 ---
 
@@ -325,7 +325,7 @@ El proyecto de implementación de monitoreo y pruebas de carga de bases de datos
 3. **Tiempo de Respuesta**: Al igual que MongoDB, Elasticsearch experimentó un aumento en el tiempo de respuesta bajo cargas pesadas. Esto destaca la importancia de optimizar las consultas y ajustar la configuración para lograr un rendimiento estable.
 
 ### MariaDB:
-
+Las pruebas
 
 
 ### * Recomendaciones

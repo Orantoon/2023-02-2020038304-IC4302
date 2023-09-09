@@ -24,3 +24,13 @@ config:
     replicas: 1
     name: flaskmdb
     image: machobg08/flaskmdb
+  flaskmariadb:
+    enabled: false
+    replicas: 1
+    name: flaskmariadb
+    image: machobg08/flaskmariadb
+  flaskmariadbgalera:
+    enabled: false
+    replicas: 1
+    name: flaskmariadbgalera
+    image: machobg08/flaskmariadbgalera

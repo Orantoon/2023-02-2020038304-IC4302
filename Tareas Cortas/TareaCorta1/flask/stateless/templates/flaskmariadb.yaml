@@ -1,0 +1,45 @@
+{{- if .Values.config.flaskmariadb.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.config.flaskmariadb.name }}
+  labels:
+    app: {{ .Values.config.flaskmariadb.name }}
+spec:
+  replicas: {{ .Values.config.flaskmariadb.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.config.flaskmariadb.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.config.flaskmariadb.name }}
+    spec:
+      containers:
+      - name: {{ .Values.config.flaskmariadb.name }}
+        image: {{ .Values.config.flaskmariadb.image }}
+        env:
+          - name: ESENDPOINT
+            value: databases-mariadb
+          - name: ESPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: databases-mariadb 
+                key: mariadb-password
+                optional: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{  .Values.config.flaskmariadb.name }}
+spec:
+  selector: 
+    app: {{  .Values.config.flaskmariadb.name }}
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30187
+  type: NodePort
+{{- end }}
+

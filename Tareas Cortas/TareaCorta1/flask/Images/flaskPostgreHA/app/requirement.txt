@@ -1,5 +1,2 @@
-Flask
-SQLAlchemy
-Sessionmaker
-Declarative_base
-Create_engine
+Flask==2.0.1
+SQLAlchemy==1.4.25

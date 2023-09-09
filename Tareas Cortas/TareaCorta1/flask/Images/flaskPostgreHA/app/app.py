@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-DATABASE_URI = os.getenv('DATABASE_URI')
+DATABASE_URI = os.getenv('postgresql://username:password@localhost:5432/nombre_db')
 
 engine = create_engine(DATABASE_URI)
 Session = sessionmaker(bind=engine)

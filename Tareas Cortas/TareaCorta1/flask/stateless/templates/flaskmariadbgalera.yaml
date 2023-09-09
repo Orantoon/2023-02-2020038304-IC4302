@@ -1,0 +1,45 @@
+{{- if .Values.config.flaskmariadbgalera.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.config.flaskmariadbgalera.name }}
+  labels:
+    app: {{ .Values.config.flaskmariadbgalera.name }}
+spec:
+  replicas: {{ .Values.config.flaskmariadbgalera.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.config.flaskmariadbgalera.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.config.flaskmariadbgalera.name }}
+    spec:
+      containers:
+      - name: {{ .Values.config.flaskmariadbgalera.name }}
+        image: {{ .Values.config.flaskmariadbgalera.image }}
+        env:
+          - name: ESENDPOINT
+            value: databases-mariadb-galera
+          - name: ESPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: databases-mariadb-galera 
+                key: mariadb-galera-password
+                optional: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{  .Values.config.flaskmariadbgalera.name }}
+spec:
+  selector: 
+    app: {{  .Values.config.flaskmariadbgalera.name }}
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30197
+  type: NodePort
+{{- end }}
+

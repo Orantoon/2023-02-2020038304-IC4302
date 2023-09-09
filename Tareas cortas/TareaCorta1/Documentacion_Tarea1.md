@@ -254,7 +254,47 @@ En este grafico de Gatling, se deseaba observar como respondía con 4000 usuario
 
 ## **Conclusiones y recomendaciones**
 
-asdf
+
+### * Conclusiones
+
+El proyecto de implementación de monitoreo y pruebas de carga de bases de datos utilizando Helm Charts, Gatling y herramientas como Prometheus, Grafana y Elasticsearch proporciona una valiosa experiencia en la configuración, monitoreo y evaluación del rendimiento de sistemas y bases de datos en entornos de Kubernetes. A partir de las pruebas realizadas en bases de datos MongoDB y Elasticsearch, se pueden extraer varias conclusiones:
+
+### MongoDB:
+
+1. **Escalabilidad y Rendimiento**: MongoDB demostró ser altamente escalable y tolerante a cargas de trabajo crecientes. Pudo manejar con éxito un aumento significativo en el número de usuarios concurrentes, lo que indica su capacidad para admitir aplicaciones con alta demanda de lectura y escritura.
+
+2. **Recursos del Sistema**: El monitoreo de recursos como el uso de CPU, memoria y conexiones fue esencial. A medida que aumentaba la carga de trabajo, el consumo de recursos también aumentaba. Esto sugiere que se deben asignar recursos adecuados para garantizar un rendimiento óptimo.
+
+3. **Velocidad de Respuesta**: A medida que se incrementaba la carga, se observó un aumento en el tiempo de respuesta, lo que indica que es fundamental dimensionar y optimizar la base de datos para mantener tiempos de respuesta aceptables bajo cargas elevadas.
+
+### Elasticsearch:
+
+1. **Escalabilidad y Rendimiento**: Elasticsearch mostró una buena escalabilidad y capacidad para manejar consultas y búsquedas en un índice de datos. Sin embargo, se notó que el aumento de la carga de trabajo podía afectar negativamente el rendimiento de las consultas.
+
+2. **Recursos del Sistema**: Similar a MongoDB, el monitoreo de recursos fue fundamental para detectar problemas potenciales. El uso de CPU y memoria se incrementó con cargas más pesadas, lo que sugiere que se deben asignar recursos suficientes.
+
+3. **Tiempo de Respuesta**: Al igual que MongoDB, Elasticsearch experimentó un aumento en el tiempo de respuesta bajo cargas pesadas. Esto destaca la importancia de optimizar las consultas y ajustar la configuración para lograr un rendimiento estable.
+
+### * Recomendaciones
+
+Para proyectos similares de implementación de monitoreo y pruebas de carga en bases de datos y sistemas Kubernetes, se pueden considerar las siguientes recomendaciones:
+
+1. **Planificación de Recursos**: Realizar un análisis detallado de los requisitos de recursos de sus aplicaciones y bases de datos. Asigne suficiente CPU, memoria y almacenamiento para evitar problemas de rendimiento.
+
+2. **Optimización de Consultas**: Optimizar las consultas y búsquedas en las bases de datos para reducir el tiempo de respuesta. Utilice índices eficientes y ajuste la estructura de datos según sea necesario.
+
+3. **Escalabilidad Horizontal**: Considerar la posibilidad de utilizar la escalabilidad horizontal para distribuir la carga de trabajo entre múltiples instancias de bases de datos o nodos. Esto puede mejorar la capacidad de respuesta y la tolerancia a fallos.
+
+4. **Monitoreo Continuo**: Implementar un sistema de monitoreo continuo utilizando herramientas como Prometheus y Grafana para supervisar el rendimiento de sus sistemas en tiempo real. Configure alertas para detectar problemas rápidamente.
+
+5. **Pruebas de Carga Graduales**: Realizar pruebas de carga gradualmente incrementando el número de usuarios concurrentes. Esto le permitirá identificar el punto de quiebre donde se alcanza la capacidad máxima de sus sistemas.
+
+6. **Gestión de Errores**: Implementar una estrategia sólida de gestión de errores y recuperación. Las bases de datos y las aplicaciones deben manejar de manera adecuada los errores para evitar la degradación del servicio.
+
+7. **Documentación Detallada**: Manter una documentación completa de la configuración, los resultados de las pruebas de carga y las lecciones aprendidas. Esto facilitará la resolución de problemas futuros y la toma de decisiones informadas.
+
+8. **Exploración de Alternativas**: Considerar explorar otras bases de datos NoSQL y herramientas de monitoreo según las necesidades específicas de su proyecto. Cada tecnología tiene sus propias fortalezas y debilidades.
+
 
 
 ## **Bibliografía**

@@ -1,0 +1,45 @@
+{{- if .Values.config.flaskpts.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.config.flaskpts.name }}
+  labels:
+    app: {{ .Values.config.flaskpts.name }}
+spec:
+  replicas: {{ .Values.config.flaskpts.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.config.flaskpts.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.config.flaskpts.name }}
+    spec:
+      containers:
+      - name: {{ .Values.config.flaskpts.name }}
+        image: {{ .Values.config.flaskpts.image }}
+        env:
+          - name: ESENDPOINT
+            value: databases-postgresql
+          - name: ESPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: databases-postgresql 
+                key: postgres-password
+                optional: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{  .Values.config.flaskpts.name }}
+spec:
+  selector: 
+    app: {{  .Values.config.flaskpts.name }}
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30137
+  type: NodePort
+{{- end }}
+

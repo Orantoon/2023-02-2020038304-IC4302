@@ -5,7 +5,22 @@ config:
     name: flaskes
     image: aaronortijimn/flaskes
   flaskmg:
-    enabled: true
+    enabled: false
     replicas: 1
     name: flaskmg
     image: aaronortijimn/flaskmg
+  flaskpts:
+    enabled: false
+    replicas: 1
+    name: flaskpts
+    image: machobg08/flaskpts
+  flaskptsha:
+    enabled: false
+    replicas: 1
+    name: flaskptsha
+    image: machobg08/flaskptsha
+  flaskmdb:
+    enabled: true
+    replicas: 1
+    name: flaskmdb
+    image: machobg08/flaskmdb

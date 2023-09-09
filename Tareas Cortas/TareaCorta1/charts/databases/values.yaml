@@ -1,5 +1,6 @@
+#mariadb
 mariadb:
-  enabled: false 
+  enabled: true 
   architecture: replication
   primary:
     resources:
@@ -82,7 +83,7 @@ mongodb:
       nodePorts:
         - 30001
         - 30002
-#Postgresql
+#postgresql
 postgresql:
   enabled: false
   global:
@@ -129,7 +130,7 @@ mariadb-galera:
       mysql: "30040"
 #elasticsearch 
 elasticsearch:
-  enabled: true
+  enabled: false
   name: elasticsearch
   version: 8.6.1
   master:

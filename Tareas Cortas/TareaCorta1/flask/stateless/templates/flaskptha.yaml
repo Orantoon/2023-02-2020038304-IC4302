@@ -1,0 +1,45 @@
+{{- if .Values.config.flaskptsha.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.config.flaskptsha.name }}
+  labels:
+    app: {{ .Values.config.flaskptsha.name }}
+spec:
+  replicas: {{ .Values.config.flaskptsha.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.config.flaskptsha.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.config.flaskptsha.name }}
+    spec:
+      containers:
+      - name: {{ .Values.config.flaskptsha.name }}
+        image: {{ .Values.config.flaskptsha.image }}
+        env:
+          - name: ESENDPOINT
+            value: databases-postgresqlha
+          - name: ESPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: databases-postgresqlha
+                key: postgresqlha-password
+                optional: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{  .Values.config.flaskptsha.name }}
+spec:
+  selector: 
+    app: {{  .Values.config.flaskptsha.name }}
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30147
+  type: NodePort
+{{- end }}
+

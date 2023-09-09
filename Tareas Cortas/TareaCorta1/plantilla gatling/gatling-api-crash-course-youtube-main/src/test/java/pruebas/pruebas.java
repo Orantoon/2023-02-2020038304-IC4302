@@ -14,15 +14,15 @@ public class pruebas extends Simulation{
 
     //Http Configuración
     private HttpProtocolBuilder httpProtocol = http
-            .baseUrl( "http://localhost:30117")
+            .baseUrl( "http://localhost:30137")
             .acceptHeader("application/json") // Encabezado / acepta JSONs
             .contentTypeHeader("application/json"); // Configurando del  tipo de encabezado
 
     //-----------------------------------------
 
     //Runtime parameters
-    private static final int USER_COUNT = Integer.parseInt(System.getProperty("USERS", "1000"));   // Cantidad de suarios para las pruebas
-    private static final int RAMP_DURATION = Integer.parseInt(System.getProperty("USERS", "30"));   // Tiempo de pruebas
+    private static final int USER_COUNT = Integer.parseInt(System.getProperty("USERS", "100"));   // Cantidad de suarios para las pruebas
+    private static final int RAMP_DURATION = Integer.parseInt(System.getProperty("USERS", "10"));   // Tiempo de pruebas
 
     //-----------------------------------------
 

@@ -18,7 +18,7 @@
 
 3. Se entra a la carpeta *charts/monitoring-stack* con el comando **cd monitoring-stack** y se corre el comando **helm dependency update** para descargar las dependencias para el helm.
 
-4. Se corre el comando **cd ..** para volver a la carpeta *charts* y se corre el comando **helm install monitoring-stack monitoring-stack** para crear el Helm encargado de las herramientas Graphana y Prometheus llamado "monitoring-stack".
+4. Se corre el comando **cd ..** para volver a la carpeta *charts* y se corre el comando **helm install monitoring-stack monitoring-stack** para crear el Helm encargado de las herramientas Grafana y Prometheus llamado "monitoring-stack".
 
 5. Se entra a la carpeta *charts/databases* con el comando **cd databases** y se corre el comando **helm dependency update** para descargar las dependencias para el helm.
 
@@ -30,9 +30,9 @@
 
 8. Ahora hay que editar el archivo *grafana-config/values.yaml* y deshabilitar todos los dashboards que no se van a visualizar (**enabled: false**) y solo habilitar los que se quieren ver (**enabled: true**). Por ejemplo:
 
-![Graphana Values](/imagenes/graphana_values.jpg)
+![Grafana Values](/imagenes/grafana_values.jpg)
 
-9. En la carpeta *charts* se corre el comando **helm install graphana-config graphana-config** para crear el Helm encargado de la configuración de Graphana llamado "graphana-config".
+9. En la carpeta *charts* se corre el comando **helm install grafana-config grafana-config** para crear el Helm encargado de la configuración de Grafana llamado "grafana-config".
 
 10. Se edita el archivo *flask/stateless/values.yaml* afuera de la carpeta *charts* y deshabilitar uno del los dos valores *flaskes* y *flaskmg* (**enabled: false**) y habilitar el otro (**enabled: true**). Por ejemplo:
 

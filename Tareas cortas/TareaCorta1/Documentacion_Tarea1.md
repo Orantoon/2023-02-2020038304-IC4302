@@ -280,7 +280,6 @@ En este grafico de Gatling, se deseaba observar como respondía con 4000 usuario
 
 ![Mongo2](/imagenes/elastic18.jpg)
 
----
 
 * **Pruebas en MariaDB**
 Las pruebas de MariaDB no pudieron ejecutadas por problemas de conexion, el codigo de MariaDB funciona al igual que la implementacion con flask, tambien esta configurado el template y la conexion con values estan. Al igual las pruebas internas con postman funcionan pero dieron error las pruebas externas con gaitlin no se pudo hacer la conexion aunque el puerto de la base de datos estaba activado no se pudo conectar. Fue el unico error que se tuvo.
@@ -298,7 +297,6 @@ No se lograron realizar las pruebas en PostgreSQL debido a problemas de conectiv
 
 * **Pruebas en PostgreSQL HA**
 No fué posible llevar a cabo las pruebas en PostgreSQL HA debido a problemas de conectividad que surgieron durante el proceso. El código de PostgreSQL HA se encuentra en excelentes condiciones y se comporta de manera consistente con la implementación en Flask. La plantilla está configurada de forma adecuada, al igual que la conexión con los valores necesarios. A pesar de que las pruebas internas con Postman se completaron satisfactoriamente, nos encontramos con dificultades al intentar realizar pruebas externas con Gatling. A pesar de tener el puerto de la base de datos activado, lamentablemente, no pudimos establecer la conexión. Este problema de conectividad fue el único desafío que enfrentamos durante el proceso de prueba en PostgreSQL HA
-
 
 ## **Conclusiones y recomendaciones**
 
@@ -322,6 +320,10 @@ El proyecto de implementación de monitoreo y pruebas de carga de bases de datos
 2. **Recursos del Sistema**: Similar a MongoDB, el monitoreo de recursos fue fundamental para detectar problemas potenciales. El uso de CPU y memoria se incrementó con cargas más pesadas, lo que sugiere que se deben asignar recursos suficientes.
 
 3. **Tiempo de Respuesta**: Al igual que MongoDB, Elasticsearch experimentó un aumento en el tiempo de respuesta bajo cargas pesadas. Esto destaca la importancia de optimizar las consultas y ajustar la configuración para lograr un rendimiento estable.
+
+### MariaDB:
+Las pruebas
+
 
 ### * Recomendaciones
 

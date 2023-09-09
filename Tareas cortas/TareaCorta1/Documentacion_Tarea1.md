@@ -280,14 +280,22 @@ En este grafico de Gatling, se deseaba observar como respondía con 4000 usuario
 
 ![Mongo2](/imagenes/elastic18.jpg)
 
+---
+
 * **Pruebas en MariaDB**
 Las pruebas de MariaDB no pudieron ejecutadas por problemas de conexion, el codigo de MariaDB funciona al igual que la implementacion con flask, tambien esta configurado el template y la conexion con values estan. Al igual las pruebas internas con postman funcionan pero dieron error las pruebas externas con gaitlin no se pudo hacer la conexion aunque el puerto de la base de datos estaba activado no se pudo conectar. Fue el unico error que se tuvo.
+
+---
 
 * **Pruebas en MariaDB Galera**
 Las pruebas de MariaDB no pudieron ejecutadas por problemas de conexion, el codigo de MariaDB Galera funciona al igual que la implementacion con flask, tambien esta configurado el template y la conexion con values estan. Al igual las pruebas internas con postman funcionan pero dieron error las pruebas externas con gaitlin no se pudo hacer la conexion aunque el puerto de la base de datos estaba activado no se pudo conectar. Fue el unico error que se tuvo.
 
+---
+
 * **Pruebas en PostgreSQL**
 Las pruebas de MariaDB no pudieron ejecutadas por problemas de conexion, el codigo de PostgreSQL funciona al igual que la implementacion con flask, tambien esta configurado el template y la conexion con values estan. Al igual las pruebas internas con postman funcionan pero dieron error las pruebas externas con gaitlin no se pudo hacer la conexion aunque el puerto de la base de datos estaba activado no se pudo conectar. Fue el unico error que se tuvo.
+
+---
 
 * **Pruebas en PostgreSQL HA**
 Las pruebas de MariaDB no pudieron ejecutadas por problemas de conexion, el codigo de PostgreSQL HA funciona al igual que la implementacion con flask, tambien esta configurado el template y la conexion con values estan. Al igual las pruebas internas con postman funcionan pero dieron error las pruebas externas con gaitlin no se pudo hacer la conexion aunque el puerto de la base de datos estaba activado no se pudo conectar. Fue el unico error que se tuvo.

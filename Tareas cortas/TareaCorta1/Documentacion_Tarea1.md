@@ -321,8 +321,9 @@ El proyecto de implementación de monitoreo y pruebas de carga de bases de datos
 
 3. **Tiempo de Respuesta**: Al igual que MongoDB, Elasticsearch experimentó un aumento en el tiempo de respuesta bajo cargas pesadas. Esto destaca la importancia de optimizar las consultas y ajustar la configuración para lograr un rendimiento estable.
 
-### MariaDB:
-Las pruebas
+### MariaDB, MariaDB Galera, PostgreSQL Y PostgreSQL HA:
+Base de datos interesantes pero un rendimientos rapido con su alta disponivilida como PostgreSQL y como funciona el SQL con tablas y el sistema CRUD pero por problemas de conexion no pudimos ver su poder total. La recomedacion es trabajar e investigar mas como trabajar flask con base de datos SQL para hacer la conexion.
+
 
 
 ### * Recomendaciones

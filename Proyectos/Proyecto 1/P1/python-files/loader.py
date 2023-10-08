@@ -1,12 +1,10 @@
 import oci
 import io
 
-import tempfile
 import mwxml
 
 import pymongo
-from pymongo import MongoClient
-from gridfs import GridFS
+import xml.etree.ElementTree as ET
 
 import cx_Oracle
 
@@ -51,6 +49,10 @@ tPEyYmr51u5OMFcUEy+O0ev2
 
 # --------------
 
+formato1 = "enwiki-latest-pages-articles-multistream-index" # TXT largo
+formato2 = "enwiki-latest-abstract" # XML
+formato3 = "enwiki-latest-pages-articles-multistream" # XML largo, parser normal
+
 oci.config.validate_config(config) # Validacion del config
 object_storage = oci.object_storage.ObjectStorageClient(config) # Se conecta al Object Storage
 
@@ -61,96 +63,136 @@ namespace = object_storage.get_namespace().data
 list_objects_response = object_storage.list_objects(namespace_name=namespace, bucket_name=bucket)
 
 
-  # ===== Object Storage =====
+mongo_uri = "mongodb+srv://admin:Tgw4ykcov122w5aa@basedatosadj.uzcvkif.mongodb.net/?retryWrites=true&w=majority"
+client = pymongo.MongoClient(mongo_uri)
+
+db = client.wikidatos
+collection = db['wikidata']
+
 
   # Loop de los files del Object Storage
 for object_summary in list_objects_response.data.objects:
 
+  # ===== Object Storage =====
+
   object_name = object_summary.name
-
   response = object_storage.get_object(namespace_name=namespace, bucket_name=bucket, object_name=object_name)
-
   object_content = response.data.content
-  data = io.BytesIO(object_content).read()
-  #print(data)
 
-  # Subir al Object Storage con Upload Manager
-  #upload_manager = oci.object_storage.UploadManager(object_storage, max_parallel_uploads=10) # Max Parallel Uploads son las subidas que se pueden hacer al mismo tiempo
-  #upload_manager.upload_file(namespace, bucket, file, file) # Se sube en un bucket, un archivo en el namespace
+  print("Archivo: ", object_name)
 
+  if object_name.startswith(formato1):
+    print("TXT")
 
-  # ===== Parser =====
+    lines = object_content.decode('utf-8').splitlines()
+    
+    for line in lines:
+      fields = line.split(':')
 
-  #dump = mwxml.Dump.from_file(open("/mnt/d/Tareas David/TEC/Semestre 8/Bases de Datos II/Bases_2/Proyectos/Proyecto 1/P1/Otros/enwiki-latest-pages-articles-multistream1.xml-p1p41242"))
-  #dump = mwxml.Dump.from_file(open("/mnt/d/Tareas David/TEC/Semestre 8/Bases de Datos II/Bases_2/Proyectos/Proyecto 1/P1/Otros/enwiki-latest-abstract2.xml"))
-  dump = mwxml.Dump.from_file(data)
+      if len(fields) == 3:
+        unknown_id, page_id, page_title = fields
 
-  print(dump.site_info.name, dump.site_info.dbname)
+      page_data = {
+          "PageId": page_id,
+          "PageTitle": page_title
+      }
+      
+      collection.insert_one(page_data)
+      print("Subida a MONGO exitosa")
 
-  #for page in dump:
-  #  print("###################################################################")
-  #  print("TITLE: ", page.title)
-  #  print("REDIRECT: ", page.redirect)
-  #  print("ID: ", page.id)
-  #  print("NAMESPACE: ", page.namespace)
-  #  print("RESTRICTIONS: ", page.restrictions)
-  #  print("___________")
-  #  for revision in page:
-  #      print("REV_ID: ", revision.id)
-  #      print("REV_TIMESTAMP: ", revision.timestamp)
-  #      print("REV_USER: ", revision.user)
-  #      print("REV_PAGE: ", revision.page)
-  #      print("REV_MINOR: ", revision.minor)
-  #      print("REV_COMMENT: ", revision.comment)
-  #      print("REV_TEXT:\n", revision.text)
-  #      print("REV_BYTES: ", revision.bytes)
-  #      print("REV_SHA1: ", revision.sha1)
-  #      print("REV_PARENTID: ", revision.parent_id)
-  #      print("REV_MODEL: ", revision.model)
-  #      print("REV_FORMAT: ", revision.format)
-  #      print("DELETED: ", revision.deleted)
-  #  print("###################################################################")
-  #  break
+  elif object_name.startswith(formato2):
+    print("XML")
 
-  # ===== Mongo =====
+    xml_string = object_content.decode('utf-8')
+    tree = ET.ElementTree(ET.fromstring(xml_string))
+    root = tree.getroot() 
 
-  #mongo_uri = "mongodb+srv://admin:Tgw4ykcov122w5aa@basedatosadj.uzcvkif.mongodb.net/?retryWrites=true&w=majority"
-  #client = MongoClient(mongo_uri)
-  #db = client.get_database()
+    for doc_element in root.findall('doc'):
+      
+      title = doc_element.find('title').text
+      url = doc_element.find('url').text
+      abstract = doc_element.find('abstract').text
 
-  #file_metadata = {
-  #    "_id": "ObjectId('6508ce5b92eabe2919130c23')",
-  #    "PageId": "12",
-  #    "PageTitle": "Anarchism",
-  #    "PageNamespaces": [],
-  #    "PageRedirect": "",
-  #    "PageHasRedirect": False,
-  #    "PageRestriction": [],
-  #    "SiteInfoName": "",
-  #    "SiteInfoDBName": "",
-  #    "SiteLanguage": "English",
-  #    "PageLastModified": "2023-08-31T15:06:22.000+00:00",
-  #    "PageLastModifiedUser": "Citation bot",
-  #    "PageBytes": 110933,
-  #    "PageText": "'''Anarchism''' is a [[political philosophy]] and [[Political movement...",
-  #    "PageWikipediaLink": "https://en.wikipedia.org/wiki/Anarchism",
-  #    "pageWikipediaGenerated": "http://en.wikipedia.org/?curid=12",
-  #    "PageLinks": [
-  #        "https://en.wikipedia.org/wiki/Anarchism#History",
-  #        "https://en.wikipedia.org/wiki/Anarchism#Pre-modern-era"
-  #    ],
-  #    "PageNumberLinks": 21
-  #}
+      links = doc_element.find('links')
+      sublinks = links.findall('.//sublink')
 
-  #collection = db.get_collection("wikidata")
+      sublinks_data = []
 
-  #document = {
-  #    "metadata": file_metadata,
-  #    "file_data": pymongo.Binary(data)
-  #}
+      for sublink in sublinks:
+        link = sublink.find('link').text
+        sublinks_data.append(link)
 
-  #collection.insert_one(document)
+      page_data = {
+          "PageTitle": title,
+          "PageText": abstract,
+          "PageWikipediaLink": url,
+          "PageLinks": sublinks_data
+      }
 
+      collection.insert_one(page_data)
+      print("Subida a MONGO exitosa")
+
+  elif object_name.startswith(formato3):
+    print("XML LARGO")
+
+    xml_file = io.BytesIO(object_content)
+
+    # ===== Parser =====
+
+    #dump = mwxml.Dump.from_file(open("/mnt/d/Tareas David/TEC/Semestre 8/Bases de Datos II/Bases_2/Proyectos/Proyecto 1/P1/Otros/enwiki-latest-pages-articles-multistream1.xml-p1p41242"))
+    #dump = mwxml.Dump.from_file(open("/mnt/d/Tareas David/TEC/Semestre 8/Bases de Datos II/Bases_2/Proyectos/Proyecto 1/P1/Otros/enwiki-latest-abstract2.xml"))
+    dump = mwxml.Dump.from_file(xml_file)
+
+    #print(dump.site_info.name, dump.site_info.dbname)
+
+    # ===== Mongo =====
+
+    for page in dump:
+      for revision in page:
+
+        page_data = {
+            "PageId": page.id,
+            "PageTitle": page.title,
+            "PageNamespaces": page.namespace,
+            "PageRestriction": page.restrictions,
+            "PageLastModifiedUser": revision.user.text,
+            "PageBytes": revision.bytes,
+            "PageText": revision.text
+        }
+
+        collection.insert_one(page_data)
+        print("Subida a MONGO exitosa")
+
+  else:
+    print("ERROR, archivo desconocido")
+
+  
+
+#page_data = {
+#    "_id": "ObjectId('6508ce5b92eabe2919130c23')",
+#    "PageId": "12",
+#    "PageTitle": "Anarchism",
+#    "PageNamespaces": [],
+#    "PageRedirect": "",
+#    "PageHasRedirect": False,
+#    "PageRestriction": [],
+#    "SiteInfoName": "",
+#    "SiteInfoDBName": "",
+#    "SiteLanguage": "English",
+#    "PageLastModified": "2023-08-31T15:06:22.000+00:00",
+#    "PageLastModifiedUser": "Citation bot",
+#    "PageBytes": 110933,
+#    "PageText": "'''Anarchism''' is a [[political philosophy]] and [[Political movement...",
+#    "PageWikipediaLink": "https://en.wikipedia.org/wiki/Anarchism",
+#    "pageWikipediaGenerated": "http://en.wikipedia.org/?curid=12",
+#    "PageLinks": [
+#        "https://en.wikipedia.org/wiki/Anarchism#History",
+#        "https://en.wikipedia.org/wiki/Anarchism#Pre-modern-era"
+#    ],
+#    "PageNumberLinks": 21
+#}
+
+client.close()
 
   # ===== Autonomous =====
 

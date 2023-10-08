@@ -1,5 +1,5 @@
 import mwxml
-dump = mwxml.Dump.from_file(open("/mnt/d/Tareas David/TEC/Semestre 8/Bases de Datos II/Bases_2/Proyectos/Proyecto 1/P1/Otros/enwiki-latest-pages-articles-multistream1.xml-p1p41242"))
+dump = mwxml.Dump.from_file(open("/mnt/d/BORRAR/F3 XML Largo/enwiki-latest-pages-articles-multistream12.xml-p7054860p8554859"))
 #dump = mwxml.Dump.from_file(open("enwiki-latest-pages-articles-multistream1.xml-p1p41242"))
 print(dump.site_info.name, dump.site_info.dbname)
 for page in dump:
@@ -25,4 +25,4 @@ for page in dump:
         print("REV_FORMAT: ", revision.format)
         print("DELETED: ", revision.deleted)
     print("###################################################################")
-    #break
+    break

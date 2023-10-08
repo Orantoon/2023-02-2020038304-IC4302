@@ -21,8 +21,8 @@ public class elasticsim extends Simulation{
     //-----------------------------------------
 
     //Runtime parameters
-    private static final int USER_COUNT = Integer.parseInt(System.getProperty("USERS", "10000"));   // Cantidad de suarios para las pruebas
-    private static final int RAMP_DURATION = Integer.parseInt(System.getProperty("USERS", "30"));   // Tiempo de pruebas
+    private static final int USER_COUNT = Integer.parseInt(System.getProperty("USERS", "4000"));   // Cantidad de suarios para las pruebas
+    private static final int RAMP_DURATION = Integer.parseInt(System.getProperty("USERS", "60"));   // Tiempo de pruebas
 
     //-----------------------------------------
 

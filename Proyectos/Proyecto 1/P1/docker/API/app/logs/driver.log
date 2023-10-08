@@ -1,0 +1,2 @@
+2023-09-26 19:58:00,615 [ERROR] Client execution RuntimeError: QUERY: Illegal Argument: Error: at (1, 7) Could not find function with name MAX and arity 1
+2023-09-27 17:20:16,687 [ERROR] Client execution NoSQLException: ic4302_logs not found

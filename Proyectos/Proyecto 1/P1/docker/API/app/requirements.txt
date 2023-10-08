@@ -1,0 +1,7 @@
+flask
+pymongo
+flask_pymongo
+oci
+borneo
+prometheus_client
+oracledb

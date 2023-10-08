@@ -1,0 +1,6 @@
+[DEFAULT]
+user=ocid1.user.oc1..aaaaaaaawyygyja6timgy2wvdb5v7kok7d5jmjsoktyxh2ciulip5hnvmomq
+fingerprint=32:5e:ab:23:3e:2e:b5:91:41:fc:8f:c5:ea:7d:30:6e
+key_file=C:\Users\Aaron\.oci\oci_api_key.pem
+tenancy=ocid1.tenancy.oc1..aaaaaaaa3epwpfrm2lqzabu6lvt2dggy7mixxirw3o4x34s2y23rhh34n6oq
+region=us-chicago-1

@@ -1,0 +1,59 @@
+CREATE TABLE Page (
+    id_Page NUMBER PRIMARY KEY,
+    title VARCHAR2(128),
+    namespace VARCHAR(255),
+    redirect VARCHAR2(128),
+    restriction VARCHAR(255),
+    hasredirect NUMBER, 
+    bytes NUMBER,
+    text CLOB,
+    wikiLinks VARCHAR2(128),
+    wikiGenerated VARCHAR2(128),
+    pageLinks VARCHAR(10000),
+    numberLinks NUMBER,
+    lastModify VARCHAR2(128),
+    id_User NUMBER,
+    id_Site NUMBER    
+);
+
+CREATE TABLE Site(
+    id_Site NUMBER PRIMARY KEY,
+    infoName VARCHAR2(128),
+    infoDBName VARCHAR2(128),
+    id_Languaje NUMBER  
+);
+
+CREATE TABLE UserTable(
+    id_User NUMBER PRIMARY KEY,
+    name VARCHAR2(128)
+);
+
+CREATE TABLE Languaje(
+    id_Languaje NUMBER PRIMARY KEY,
+    name  VARCHAR2(128) 
+ 
+);
+
+ALTER TABLE Page 
+ADD
+CONSTRAINT fk_page_user FOREIGN KEY (id_User) REFERENCES Usertable(id_User);
+
+ALTER TABLE Page 
+ADD
+CONSTRAINT fk_page_site FOREIGN KEY (id_Site) REFERENCES Site(id_Site);
+
+ALTER TABLE Site
+ADD
+CONSTRAINT fk_site_languaje FOREIGN KEY (id_Languaje) REFERENCES Languaje(id_Languaje);
+
+
+DROP TABLE Page;
+DROP TABLE Site;
+DROP TABLE UserTable;
+DROP TABLE Languaje;
+
+
+SELECT * FROM Page;
+SELECT * FROM Site;
+SELECT * FROM UserTable;
+SELECT * FROM Languaje;

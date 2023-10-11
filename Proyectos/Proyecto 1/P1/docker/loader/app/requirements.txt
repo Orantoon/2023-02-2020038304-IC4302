@@ -1,6 +1,4 @@
 oci
-io
 mwxml
 pymongo
-xml.etree.ElementTree as ET
 oracledb

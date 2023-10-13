@@ -19,3 +19,4 @@ echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docke
 apt-get update -y
 apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 docker run -d -p 80:5000 --name apimongo aaronortijimn/apimongo
+docker run -d --name loader_container orantoon/loader

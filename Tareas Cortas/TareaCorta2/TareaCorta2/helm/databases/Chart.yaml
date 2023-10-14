@@ -29,3 +29,23 @@ dependencies:
     version: "13.6.7"
     repository: https://charts.bitnami.com/bitnami
     condition: mongodb.enabled
+  # mariadb
+  - name: mariadb
+    version: "11.4.6"
+    repository: https://charts.bitnami.com/bitnami
+    condition: mariadb.enabled
+  # postgresql
+  - name: postgresql
+    version: "11.8.1"
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  # neo4j
+  - name: neo4j
+    version: "5.10.0"
+    repository: https://helm.neo4j.com/neo4j
+    condition: neo4j.enabled
+  # couchdb
+  - name: couchdb
+    version: "4.4.3"
+    repository: https://apache.github.io/couchdb-helm
+    condition: couchdb.enabled

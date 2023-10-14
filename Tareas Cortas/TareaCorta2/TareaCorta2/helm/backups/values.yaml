@@ -1,15 +1,30 @@
 mongo:
-  enabled: true
+  enabled: false
   config:
     namespace: default
     connectionString: databases-mongodb.default.svc.cluster.local:27017
     bucketName: tec-ic4302-02-2023
-    path: 200420157/mongodb
+    path: 2022437529/mongodb
     maxBackups: 3
     secret: databases-mongodb
     name: mongo 
     schedule: "0 */12 * * *"
     diskSize: 2
+    storageClass: hostpath
+    provider: aws
+    type: backup
+neo4j:
+  enabled: true
+  config:
+    namespace: default
+    connectionString: databases-admin.default.svc.cluster.local:6362
+    bucketName: tec-ic4302-02-2023
+    path: 2022437529/neo4j
+    maxBackups: 3
+    secret: ic4302-auth
+    name: neo4j 
+    schedule: "0 */12 * * *"
+    diskSize: 2Gi
     storageClass: hostpath
     provider: aws
     type: backup

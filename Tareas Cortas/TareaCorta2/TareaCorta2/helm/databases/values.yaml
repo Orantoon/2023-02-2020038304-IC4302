@@ -1,5 +1,5 @@
 mongodb:
-  enabled: true
+  enabled: false
 elastic:
   version: 8.6.1
   replicas: 1
@@ -8,3 +8,30 @@ kibana:
   version: 8.6.1
   replicas: 1
   name: ic4302
+couchdb:
+  enabled: false
+  couchdbConfig:
+    couchdb:
+      uuid: decafbaddecafbaddecafbaddecafbad
+  persistentVolume:
+    enabled: true
+    size: 2Gi
+neo4j:
+  enabled: true
+  neo4j:
+    name: ic4302
+    edition: "enterprise"
+    acceptLicenseAgreement: "yes"
+  volumes:
+    data:
+      mode: defaultStorageClass
+      defaultStorageClass:
+        requests:
+          storage: 2Gi
+  services:
+    backup:
+      enabled: true
+postgresql:
+  enabled: false
+mariadb:
+  enabled: false

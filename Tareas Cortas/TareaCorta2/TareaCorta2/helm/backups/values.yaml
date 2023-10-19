@@ -28,3 +28,18 @@ neo4j:
     storageClass: hostpath
     provider: aws
     type: backup
+couchdb:
+  enabled: true
+  config:
+    namespace: default
+    connectionString: databases-admin.default.svc.cluster.local:5984
+    bucketName: tec-ic4302-02-2023
+    path: 2022437529/couchdb
+    maxBackups: 3
+    secret: ic4302-auth
+    name: couchdb 
+    schedule: "0 */12 * * *"
+    diskSize: 2Gi
+    storageClass: hostpath
+    provider: aws
+    type: backup

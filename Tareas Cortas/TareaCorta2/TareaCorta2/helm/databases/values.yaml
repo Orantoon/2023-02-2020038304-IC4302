@@ -34,4 +34,4 @@ neo4j:
 postgresql:
   enabled: false
 mariadb:
-  enabled: true
+  enabled: false

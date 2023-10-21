@@ -132,5 +132,55 @@ spec:
             # - "/dev/null"
       restartPolicy: Never
   backoffLimit: 1
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongo-restore
+  namespace: {{ .Values.mongo.config.namespace }}
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .Values.mongo.config.serviceAccount }}
+      volumes:
+      - name: scripts
+        configMap:
+          name: mongo-restores-script
+          defaultMode: 0777
+      - name: mongo-snapshotter
+        persistentVolumeClaim:
+          claimName: mongo-snapshotter
+      - name: aws-credential
+        secret:
+          secretName: aws-credential
+      containers:
+        - image: mongo:latest
+          name: mongo-restore
+          env:
+            - name: BUCKET_NAME
+              value: "{{ .Values.mongo.config.bucketName }}"
+            - name: BACKUP_PATH
+              value: "{{ .Values.mongo.config.path }}"
+            - name: MONGO_CONNECTION_STRING
+              value: "{{ .Values.mongo.config.connectionString }}"
+            - name: MONGO_USERNAME
+              value: "root"
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.mongo.config.secret }}"
+                  key: mongodb-root-password
+                  optional: false
+          volumeMounts:
+            - mountPath: "/mongodump"
+              name: mongo-snapshotter
+            - mountPath: /scripts
+              name: scripts
+            - mountPath: /root/.aws
+              name: aws-credential
+          command:
+            - "/scripts/mongodb-restore.sh"
+      restartPolicy: Never
+  backoffLimit: 1
 
 {{- end }}

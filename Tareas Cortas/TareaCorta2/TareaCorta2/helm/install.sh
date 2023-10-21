@@ -21,3 +21,7 @@ helm dependency build --skip-refresh
 cd ..
 helm upgrade --install backups backups
 
+
+#helm uninstall backups
+#helm uninstall databases
+#helm uninstall bootstrap

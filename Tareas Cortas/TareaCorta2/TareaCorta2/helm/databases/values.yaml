@@ -17,7 +17,7 @@ couchdb:
     enabled: true
     size: 2Gi
 neo4j:
-  enabled: true
+  enabled: false
   neo4j:
     name: ic4302
     edition: "enterprise"
@@ -34,4 +34,4 @@ neo4j:
 postgresql:
   enabled: false
 mariadb:
-  enabled: false
+  enabled: true

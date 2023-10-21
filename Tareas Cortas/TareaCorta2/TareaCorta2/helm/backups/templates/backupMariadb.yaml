@@ -1,0 +1,136 @@
+{{- if .Values.mariadb.enabled }}
+
+apiVersion: v1 
+kind: ConfigMap
+metadata:
+  name: mariadb-backups-script
+  namespace: {{ .Values.namespace }}
+data:
+{{ (.Files.Glob "scripts/mariadb.sh").AsConfig | indent 2 }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mariadb-snapshotter
+  namespace: {{ .Values.mariadb.config.namespace }}
+spec:
+  storageClassName: {{ .Values.mariadb.config.storageClass }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.mariadb.config.diskSize }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: "mariadb-backup"
+  namespace: {{ .Values.mariadb.config.namespace }}
+spec:
+  schedule: {{ .Values.mariadb.config.schedule }}
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      template:
+        spec:
+          terminationGracePeriodSeconds: 0
+          restartPolicy: Never
+          volumes:
+          - name: scripts
+            configMap:
+              name: mariadb-backups-script
+              defaultMode: 0700
+          - name: mariadb-snapshotter
+            persistentVolumeClaim:
+              claimName: mariadb-snapshotter
+          - name: aws-credential
+            secret: 
+              secretName: aws-credential
+          containers:
+            - image: public.ecr.aws/aws-cli/aws-cli
+              name: mariadb-snapshotter
+              env:
+                - name: mariadb_CONNECTION_STRING
+                  value: "{{ .Values.mariadb.config.connectionString }}"
+                - name: BUCKET_NAME
+                  value: "{{ .Values.mariadb.config.bucketName }}"
+                - name: BACKUP_PATH
+                  value: "{{ .Values.mariadb.config.path }}"
+                - name: MAX_BACKUPS
+                  value: "{{ .Values.mariadb.config.maxBackups }}"
+                - name: mariadb_USERNAME
+                  value: "root"
+                - name: mariadb_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: "{{ .Values.mariadb.config.secret }}"
+                      key: uxRMHXwKND
+                      optional: false
+              volumeMounts:
+                - mountPath: "/mariadbdump"
+                  name: mariadb-snapshotter
+                - name: scripts
+                  mountPath: /scripts
+                - name: aws-credential
+                  mountPath: /root/.aws
+              command:
+                - "/scripts/mariadb.sh"
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mariadb-backup-0
+  namespace: {{ .Values.mariadb.config.namespace }}
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .Values.mariadb.config.serviceAccount }}
+      volumes:
+      - name: scripts
+        configMap:
+          name: mariadb-backups-script
+          defaultMode: 0777
+      - name: mariadb-snapshotter
+        persistentVolumeClaim:
+          claimName: mariadb-snapshotter
+      - name: aws-credential
+        secret: 
+          secretName: aws-credential
+      containers:
+        - image: public.ecr.aws/aws-cli/aws-cli
+          name: mariadb-snapshotter
+          env:
+            - name: mariadb_CONNECTION_STRING
+              value: "{{ .Values.mariadb.config.connectionString }}"
+            - name: BUCKET_NAME
+              value: "{{ .Values.mariadb.config.bucketName }}"
+            - name: BACKUP_PATH
+              value: "{{ .Values.mariadb.config.path }}"
+            - name: MAX_BACKUPS
+              value: "{{ .Values.mariadb.config.maxBackups }}"
+            - name: mariadb_USERNAME
+              value: "root"
+            - name: mariadb_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.mariadb.config.secret }}"
+                  key: uxRMHXwKND
+                  optional: false
+          volumeMounts:
+            - mountPath: "/mariadbdump"
+              name: mariadb-snapshotter
+            - name: scripts
+              mountPath: /scripts
+            - name: aws-credential
+              mountPath: /root/.aws
+          command:
+            - "/scripts/mariadbdb.sh"
+            # - "tail"
+            # - "-f"
+            # - "/dev/null"
+      restartPolicy: Never
+  backoffLimit: 1
+
+{{- end }}

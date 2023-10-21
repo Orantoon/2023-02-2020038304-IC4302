@@ -14,7 +14,7 @@ mongo:
     provider: aws
     type: backup
 neo4j:
-  enabled: true
+  enabled: false
   config:
     namespace: default
     connectionString: databases-admin.default.svc.cluster.local:6362

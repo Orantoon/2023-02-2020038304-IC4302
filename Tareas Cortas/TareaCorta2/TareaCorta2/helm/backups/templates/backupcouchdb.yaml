@@ -66,7 +66,7 @@ spec:
                   valueFrom:
                     secretKeyRef:
                       name: "{{ .Values.couchdb.config.secret }}"
-                      key: COUCHDB_AUTH
+                      key: adminPassword
                       optional: false
               volumeMounts:
                 - mountPath: "/couchdbdump"
@@ -116,7 +116,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: "{{ .Values.couchdb.config.secret }}"
-                  key: COUCHDB_AUTH
+                  key: adminPassword
                   optional: false
           volumeMounts:
             - mountPath: "/couchdbdump"

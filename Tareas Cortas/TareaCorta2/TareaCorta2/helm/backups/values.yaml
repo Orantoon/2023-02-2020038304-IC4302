@@ -1,5 +1,5 @@
 mongo:
-  enabled: true
+  enabled: false
   restore: true
   backup: false
   config:
@@ -38,8 +38,23 @@ couchdb:
     bucketName: tec-ic4302-02-2023
     path: 2022437529/couchdb
     maxBackups: 3
-    secret: ic4302-auth
+    secret: databases-couchdb
     name: couchdb 
+    schedule: "0 */12 * * *"
+    diskSize: 2Gi
+    storageClass: hostpath
+    provider: aws
+    type: backup
+mariadb:
+  enabled: false
+  config:
+    namespace: default
+    connectionString: databases-admin.default.svc.cluster.local:3306
+    bucketName: tec-ic4302-02-2023
+    path: 2022437529/mariadb
+    maxBackups: 3
+    secret: ic4302-auth
+    name: mariadb
     schedule: "0 */12 * * *"
     diskSize: 2Gi
     storageClass: hostpath

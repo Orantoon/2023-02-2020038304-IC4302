@@ -46,6 +46,6 @@ dependencies:
     condition: neo4j.enabled
   # couchdb
   - name: couchdb
-    version: "4.4.3"
+    version: "4.4.5"
     repository: https://apache.github.io/couchdb-helm
     condition: couchdb.enabled

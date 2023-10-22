@@ -1,10 +1,12 @@
 mongodb:
-  enabled: true
+  enabled: false
 elastic:
+  enabled: false
   version: 8.6.1
   replicas: 1
   name: ic4302
 kibana:
+  enabled: false
   version: 8.6.1
   replicas: 1
   name: ic4302

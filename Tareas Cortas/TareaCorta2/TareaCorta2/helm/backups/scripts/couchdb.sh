@@ -12,7 +12,8 @@ gpgkey=https://couchdb.apache.org/repo/keys.asc https://couchdb.apache.org/repo/
 EOT
 yum update
 yum install -y couchdb
-couchdbdump --host="$COUCHDB_CONNECTION_STRING" -u $COUCHDB_USERNAME -p $COUCHDB_PASSWORD --gzip --archive=/couchdbdump/$DATE
+mkdir -p $couchdbdump
+curl -X GET "http://localhost:5984/databases-couchdb/_all_docs?include_docs=true" $couchdbdump/backup.json
 aws s3 cp /couchdbdump/$DATE s3://$BUCKET_NAME/$BACKUP_PATH/ --recursive
 aws s3 ls s3://$BUCKET_NAME/$BACKUP_PATH/
 rm -rf /couchdbdump/$DATE

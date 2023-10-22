@@ -1,5 +1,7 @@
 mongo:
-  enabled: false
+  enabled: true
+  restore: true
+  backup: false
   config:
     namespace: default
     connectionString: databases-mongodb.default.svc.cluster.local:27017

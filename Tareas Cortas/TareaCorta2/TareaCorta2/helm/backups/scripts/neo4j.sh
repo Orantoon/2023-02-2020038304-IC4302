@@ -16,5 +16,3 @@ neo4j-admin database backup --from=$NEO4J_CONNECTION_STRING --to-path=/neo4jdump
 aws s3 cp /neo4jdump/$DATE s3://$BUCKET_NAME/$BACKUP_PATH/ --recursive
 aws s3 ls s3://$BUCKET_NAME/$BACKUP_PATH/
 rm -rf /neo4jdump/$DATE
-
-

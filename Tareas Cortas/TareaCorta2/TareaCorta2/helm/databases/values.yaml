@@ -1,5 +1,5 @@
 mongodb:
-  enabled: false
+  enabled: true
 elastic:
   version: 8.6.1
   replicas: 1

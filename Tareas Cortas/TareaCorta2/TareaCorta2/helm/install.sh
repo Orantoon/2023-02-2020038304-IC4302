@@ -1,7 +1,7 @@
 #!/bin/bash
-#helm repo add elastic https://helm.elastic.co
-#helm repo add bitnami https://charts.bitnami.com/bitnami
-#helm repo update
+helm repo add elastic https://helm.elastic.co
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
 
 cd bootstrap
 rm -rf Char.lock
@@ -14,7 +14,7 @@ rm -rf Char.lock
 helm dependency build --skip-refresh
 cd ..
 helm upgrade --install databases databases
-sleep 60
+sleep 60g
 cd backups
 rm -rf Char.lock
 helm dependency build --skip-refresh

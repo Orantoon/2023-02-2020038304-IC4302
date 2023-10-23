@@ -31,7 +31,7 @@ neo4j:
     provider: aws
     type: backup
 couchdb:
-  enabled: true
+  enabled: false
   config:
     namespace: default
     connectionString: databases-admin.default.svc.cluster.local:5984

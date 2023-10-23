@@ -1,9 +1,9 @@
 #!/bin/bash
 
 
-helm uninstall bootstrap
+helm uninstall backups
 
 helm uninstall databases
 
-helm uninstall backups
+helm uninstall bootstrap
 

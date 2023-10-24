@@ -2,15 +2,12 @@
 DATE=$(date '+%Y%m%d%H%M')
 mkdir -p /mariadbdump/$DATE
 
-curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
-cat << EOF > /etc/yum.repos.d/MariaDB.repo
-[mariadb]
-name=MariaDB
-baseurl=https://rpm.mariadb.org/10.6/rhel/$releasever/$basearch
-gpgkey=https://rpm.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-EOF
-sudo yum install MariaDB-backup
+curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | bash -s -- --os-type=rhel --os-version=8
+
+yum install MariaDB-server MariaDB-client MariaDB-backup
+rpm --import https://supplychain.mariadb.com/MariaDB-Server-GPG-KEY
+
+mariabackup --backup --target-dir=/mariadbdump/$DATE --user=root --password=$mariadb_PASSWORD
 
 aws s3 cp /mariadbdump/$DATE s3://$BUCKET_NAME/$BACKUP_PATH/ --recursive
 aws s3 ls s3://$BUCKET_NAME/$BACKUP_PATH/

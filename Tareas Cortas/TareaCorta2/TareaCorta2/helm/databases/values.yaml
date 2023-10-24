@@ -11,7 +11,7 @@ kibana:
   replicas: 1
   name: ic4302
 couchdb:
-  enabled: false
+  enabled: true
   couchdbConfig:
     couchdb:
       uuid: decafbaddecafbaddecafbaddecafbad

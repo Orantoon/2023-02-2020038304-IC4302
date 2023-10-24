@@ -8,6 +8,14 @@ metadata:
 data:
 {{ (.Files.Glob "scripts/couchdb.sh").AsConfig | indent 2 }}
 ---
+apiVersion: v1 
+kind: ConfigMap
+metadata:
+  name: couchdb-restore-manual
+  namespace: {{ .Values.namespace }}
+data:
+{{ (.Files.Glob "scripts/restorecouchdb.sh").AsConfig | indent 2 }}
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -78,6 +86,7 @@ spec:
               command:
                 - "/scripts/couchdb.sh"
 ---
+{{- if .Values.couchdb.backup }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -132,5 +141,63 @@ spec:
             # - "/dev/null"
       restartPolicy: Never
   backoffLimit: 1
-
+{{- end }}
+---
+{{- if .Values.couchdb.restore }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: couchdb-restore-0
+  namespace: {{ .Values.couchdb.config.namespace }}
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .Values.couchdb.config.serviceAccount }}
+      volumes:
+      - name: scripts
+        configMap:
+          name: couchdb-restore-manual
+          defaultMode: 0777
+      - name: couchdb-snapshotter
+        persistentVolumeClaim:
+          claimName: couchdb-snapshotter
+      - name: aws-credential
+        secret: 
+          secretName: aws-credential
+      containers:
+        - image: public.ecr.aws/aws-cli/aws-cli
+          name: couchdb-snapshotter
+          env:
+            - name: COUCHDB_CONNECTION_STRING
+              value: "{{ .Values.couchdb.config.connectionString }}"
+            - name: BUCKET_NAME
+              value: "{{ .Values.couchdb.config.bucketName }}"
+            - name: BACKUP_PATH
+              value: "{{ .Values.couchdb.config.path }}"
+            - name: MAX_BACKUPS
+              value: "{{ .Values.couchdb.config.maxBackups }}"
+            - name: COUCHDB_USERNAME
+              value: "root"
+            - name: COUCHDB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.couchdb.config.secret }}"
+                  key: adminPassword
+                  optional: false
+          volumeMounts:
+            - mountPath: "/couchdbdump"
+              name: couchdb-snapshotter
+            - name: scripts
+              mountPath: /scripts
+            - name: aws-credential
+              mountPath: /root/.aws
+          command:
+            - "/scripts/restorecouchdb.sh"
+            
+            # - "tail"
+            # - "-f"
+            # - "/dev/null"
+      restartPolicy: Never
+  backoffLimit: 1
+{{- end }}
 {{- end }}

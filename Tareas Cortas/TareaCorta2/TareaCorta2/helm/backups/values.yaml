@@ -17,6 +17,8 @@ mongo:
     type: backup
 neo4j:
   enabled: false
+  restore: true
+  backup: false
   config:
     namespace: default
     connectionString: databases-admin.default.svc.cluster.local:6362
@@ -26,7 +28,7 @@ neo4j:
     secret: ic4302-auth
     name: neo4j 
     schedule: "0 */12 * * *"
-    diskSize: 2Gi
+    diskSize: 2
     storageClass: hostpath
     provider: aws
     type: backup

@@ -6,7 +6,23 @@ metadata:
   name: neo4j-backups-script
   namespace: {{ .Values.namespace }}
 data:
-{{ (.Files.Glob "scripts/neo4j.sh").AsConfig | indent 2 }}
+{{ (.Files.Glob "scripts/neo4jbackup.sh").AsConfig | indent 2 }}
+---
+apiVersion: v1 
+kind: ConfigMap
+metadata:
+  name: neo4j-restore-manual
+  namespace: default
+data:
+{{ (.Files.Glob "scripts/restore.sh").AsConfig | indent 2 }}
+---
+apiVersion: v1 
+kind: ConfigMap
+metadata:
+  name: neo4j-restores-script
+  namespace: {{ .Values.namespace }}
+data:
+{{ (.Files.Glob "scripts/neo4jR.sh").AsConfig | indent 2 }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -76,8 +92,9 @@ spec:
                 - name: aws-credential
                   mountPath: /root/.aws
               command:
-                - "/scripts/neo4j.sh"
+                - "/scripts/neo4jbackup.sh"
 ---
+{{- if .Values.neo4j.backup }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -111,7 +128,7 @@ spec:
             - name: MAX_BACKUPS
               value: "{{ .Values.neo4j.config.maxBackups }}"
             - name: NEO4J_USERNAME
-              value: "root"
+              value: "neo4j"
             - name: NEO4J_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -126,11 +143,90 @@ spec:
             - name: aws-credential
               mountPath: /root/.aws
           command:
-            - "/scripts/neo4j.sh"
+            - "/scripts/neo4jbackup.sh"
             # - "tail"
             # - "-f"
             # - "/dev/null"
       restartPolicy: Never
   backoffLimit: 1
-
+{{- end }}
+---
+{{- if .Values.neo4j.restore }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: neo4j-restore-0
+  namespace: {{ .Values.neo4j.config.namespace }}
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .Values.neo4j.config.serviceAccount }}
+      volumes:
+      - name: scripts
+        configMap:
+          name: neo4j-restores-script
+          defaultMode: 0777
+      - name: scripts-manual
+        configMap:
+          name: neo4j-restore-manual
+          defaultMode: 0777
+      - name: neo4j-snapshotter
+        persistentVolumeClaim:
+          claimName: neo4j-snapshotter
+      - name: aws-credential
+        secret: 
+          secretName: aws-credential
+      - name: data-databases-0
+        persistentVolumeClaim:
+          claimName: data-databases-0
+      containers:
+        - image: public.ecr.aws/aws-cli/aws-cli
+          name: neo4j-snapshotter
+          env:
+            - name: NEO4J_CONNECTION_STRING
+              value: "{{ .Values.neo4j.config.connectionString }}"
+            - name: BUCKET_NAME
+              value: "{{ .Values.neo4j.config.bucketName }}"
+            - name: BACKUP_PATH
+              value: "{{ .Values.neo4j.config.path }}"
+            - name: MAX_BACKUPS
+              value: "{{ .Values.neo4j.config.maxBackups }}"
+            - name: NEO4J_USERNAME
+              value: "neo4j"
+            - name: NEO4J_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.neo4j.config.secret }}"
+                  key: NEO4J_AUTH
+                  optional: false
+          volumeMounts:
+            - mountPath: "/neo4jdump"
+              name: neo4j-snapshotter
+            - name: scripts
+              mountPath: /scripts
+            - name: aws-credential
+              mountPath: /root/.aws
+            - name: data-databases-0
+              mountPath: /data
+          command:
+            - "/scripts/neo4jR.sh"
+            # - "tail"
+            # - "-f"
+            # - "/dev/null"
+        - image: bitnami/kubectl
+          name: Restore-manual
+          command:
+            - "/scripts/restore.sh" 
+          imagePullPolicy: IfNotPresent
+          name: debug-pod
+          volumeMounts:
+          - name: aws-credential
+            mountPath: /root/.aws
+          - name: scripts-manual
+            mountPath: /scripts
+          - name: data-databases-0
+            mountPath: /data 
+      restartPolicy: Never
+  backoffLimit: 1
+{{- end }}
 {{- end }}

@@ -11,14 +11,14 @@ kibana:
   replicas: 1
   name: ic4302
 couchdb:
-  enabled: true
+  enabled: false
   couchdbConfig:
     couchdb:
       uuid: decafbaddecafbaddecafbaddecafbad
       httpd:
         bind_address: 0.0.0.0
   persistentVolume:
-    enabled: true
+    enabled: false
     size: 2Gi
 neo4j:
   enabled: false
@@ -34,7 +34,7 @@ neo4j:
           storage: 2Gi
   services:
     backup:
-      enabled: true
+      enabled: false
 postgresql:
   enabled: false
 mariadb:

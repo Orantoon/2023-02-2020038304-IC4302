@@ -4,8 +4,12 @@ mkdir -p /mariadbdump/$DATE
 
 curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | bash -s -- --os-type=rhel --os-version=8
 
-yum install MariaDB-server MariaDB-client MariaDB-backup
-rpm --import https://supplychain.mariadb.com/MariaDB-Server-GPG-KEY
+yum install yum-utils
+yum update yum*
+package-cleanup --dupes
+package-cleanup --cleandupes
+
+yum install MariaDB-backup
 
 mariabackup --backup --target-dir=/mariadbdump/$DATE --user=root --password=$mariadb_PASSWORD
 

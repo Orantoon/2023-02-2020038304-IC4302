@@ -1,6 +1,6 @@
 mongo:
   enabled: false
-  restore: true
+  restore: false
   backup: false
   config:
     namespace: default
@@ -17,7 +17,7 @@ mongo:
     type: backup
 neo4j:
   enabled: false
-  restore: true
+  restore: false
   backup: false
   config:
     namespace: default
@@ -33,7 +33,9 @@ neo4j:
     provider: aws
     type: backup
 couchdb:
-  enabled: false
+  enabled: true
+  restore: true
+  backup: false
   config:
     namespace: default
     connectionString: databases-admin.default.svc.cluster.local:5984

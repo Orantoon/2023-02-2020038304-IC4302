@@ -126,7 +126,7 @@ spec:
             - name: aws-credential
               mountPath: /root/.aws
           command:
-            - "/scripts/mariadbdb.sh"
+            - "/scripts/mariadb.sh"
             # - "tail"
             # - "-f"
             # - "/dev/null"

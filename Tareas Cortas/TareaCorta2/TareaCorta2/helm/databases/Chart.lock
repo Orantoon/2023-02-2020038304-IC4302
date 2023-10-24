@@ -15,4 +15,4 @@ dependencies:
   repository: https://apache.github.io/couchdb-helm
   version: 4.4.5
 digest: sha256:e71fb8e0adc4aecd274e87dd2cb1ad773c14ec30e76f8a0d2e56cc284a255551
-generated: "2023-10-23T18:25:54.797013643-06:00"
+generated: "2023-10-24T11:05:46.874705758-06:00"

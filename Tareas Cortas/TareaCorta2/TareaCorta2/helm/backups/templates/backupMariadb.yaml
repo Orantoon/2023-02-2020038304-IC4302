@@ -66,7 +66,7 @@ spec:
                   valueFrom:
                     secretKeyRef:
                       name: "{{ .Values.mariadb.config.secret }}"
-                      key: uxRMHXwKND
+                      key: mariadb-root-password
                       optional: false
               volumeMounts:
                 - mountPath: "/mariadbdump"
@@ -116,7 +116,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: "{{ .Values.mariadb.config.secret }}"
-                  key: uxRMHXwKND
+                  key: mariadb-root-password
                   optional: false
           volumeMounts:
             - mountPath: "/mariadbdump"
@@ -126,7 +126,7 @@ spec:
             - name: aws-credential
               mountPath: /root/.aws
           command:
-            - "/scripts/mariadbdb.sh"
+            - "/scripts/mariadb.sh"
             # - "tail"
             # - "-f"
             # - "/dev/null"

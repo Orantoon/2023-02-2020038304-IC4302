@@ -50,14 +50,14 @@ couchdb:
     provider: aws
     type: backup
 mariadb:
-  enabled: false
+  enabled: true
   config:
     namespace: default
     connectionString: databases-admin.default.svc.cluster.local:3306
     bucketName: tec-ic4302-02-2023
     path: 2022437529/mariadb
     maxBackups: 3
-    secret: ic4302-auth
+    secret: databases-mariadb
     name: mariadb
     schedule: "0 */12 * * *"
     diskSize: 2Gi

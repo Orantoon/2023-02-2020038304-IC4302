@@ -137,7 +137,35 @@
 
     ![Alt text](couchdb6.png)
 
+* **Base de datos Postgresql**
 
+    Cuandp se ejecuta el comando "helm install backup" con postgresql debe aparecer de la siguiente manera, cuando se realiza el backup.
+
+    ![Alt text](post3.png)
+
+    Cuando se completa correctamente aparece la palabra succeeded.
+
+    ![Alt text](post4.png)
+
+    En el apartado de logs se observa que se descargan las dependencias necesarias.
+
+    ![Alt text](post5.png)
+
+    Al final de los logs, se puede observar  que se cargó correctamente el archivo al bucket de aws.
+
+    ![Alt text](post6.png)
+
+    En la siguiente imagen es posible observar la informacion del bucket de aws, se obtiene que este es el contenido del archivo de backup realizado.
+
+    ![Alt text](post7.png)
+
+    Se logran observar los datos respaldados.
+
+    ![Alt text](post8.png)
+
+    Al visualizar la informacion que se encontraba dentro de la base de datos a la que se le realizó el backup, es posible ver que los datos coinciden
+
+    ![Alt text](post9.png)
 
 ## Recomendaciones
 

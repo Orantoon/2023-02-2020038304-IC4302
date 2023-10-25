@@ -67,7 +67,8 @@ mariadb:
 
 postgresql:
   enabled: true
-  restore: true
+  restore: false
+  backup: true
   config:
     namespace: default
     connectionString: databases-admin.default.svc.cluster.local:5432

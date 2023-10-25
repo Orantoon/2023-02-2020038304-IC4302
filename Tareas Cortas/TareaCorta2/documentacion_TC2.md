@@ -135,3 +135,11 @@
 * Es interesante como se implementan los backups mediante el uso de los propios enpoints de couch, y no es necesario instalar o requerir otras herramientas fuera de las que brinda couch, el backup se realizó solamente usando las operaciones GET y POST para los endpoints necesarios.
 
 
+## Fuentes consultadas.
+* https://docs.couchdb.org/en/stable/install/unix.html
+* https://github.com/apache/couchdb-helm/blob/main/couchdb/Chart.yaml
+* https://www.ionos.com/digitalguide/hosting/technical-matters/work-with-couchdb-from-the-command-line/
+* https://couchdb.apache.org/repo/couchdb.repo
+* https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+

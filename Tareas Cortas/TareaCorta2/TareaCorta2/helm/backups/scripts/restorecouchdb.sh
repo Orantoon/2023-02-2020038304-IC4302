@@ -12,11 +12,16 @@ gpgkey=https://couchdb.apache.org/repo/keys.asc https://couchdb.apache.org/repo/
 EOT
 
 yum update
+#Instala jq para poder parsear el json
 yum install jq -y
 
+#Copiar los archivos del bucket a la carpeta temporal
 aws s3 cp s3://$BUCKET_NAME/$BACKUP_PATH/ /backup/ --recursive
+#Parsea el json y lo guarda en  documentos.json
 jq  '{docs: [.rows[].doc]}' ../backup/backup.json > documentos.json
+#Muestra el contenido del archivo
 cat documentos.json
+#Sube los documentos a la base de datos
 curl -X POST -d @"documentos.json" -H "Content-Type: application/json" -u admin:$COUCHDB_PASSWORD http://databases-couchdb:5984/couchdb/_bulk_docs
-
+#Elimina el directorio temporal
 rm -rf /backup/

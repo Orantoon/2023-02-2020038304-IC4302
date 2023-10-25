@@ -16,9 +16,13 @@ gpgkey=https://couchdb.apache.org/repo/keys.asc https://couchdb.apache.org/repo/
 EOT
 
 yum update
-
+#Consulta para obtener todos los documentos de la base de datos
 curl -X GET -u admin:$COUCHDB_PASSWORD http://databases-couchdb:5984/couchdb/_all_docs?include_docs=true > /couchdbdump/$DATE/backup.json
+#Muestra el contenido del archivo
 cat /couchdbdump/$DATE/backup.json
+#Sube el archivo al bucket AWS
 aws s3 cp /couchdbdump/$DATE/ s3://$BUCKET_NAME/$BACKUP_PATH/ --recursive
+#Muestra el contenido del bucket
 aws s3 ls s3://$BUCKET_NAME/$BACKUP_PATH/
+#Elimina el directorio temporal
 rm -rf /couchdbdump/$DATE

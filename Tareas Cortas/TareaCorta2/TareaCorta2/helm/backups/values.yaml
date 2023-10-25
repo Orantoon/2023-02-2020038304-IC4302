@@ -33,7 +33,7 @@ neo4j:
     provider: aws
     type: backup
 couchdb:
-  enabled: true
+  enabled: false
   restore: true
   backup: false
   config:
@@ -59,6 +59,23 @@ mariadb:
     maxBackups: 3
     secret: databases-mariadb
     name: mariadb
+    schedule: "0 */12 * * *"
+    diskSize: 2Gi
+    storageClass: hostpath
+    provider: aws
+    type: backup
+
+postgresql:
+  enabled: true
+  restore: true
+  config:
+    namespace: default
+    connectionString: databases-admin.default.svc.cluster.local:5432
+    bucketName: tec-ic4302-02-2023
+    path: 2022437529/postgresql
+    maxBackups: 3
+    secret: databases-postgresql
+    name: postgresql
     schedule: "0 */12 * * *"
     diskSize: 2Gi
     storageClass: hostpath

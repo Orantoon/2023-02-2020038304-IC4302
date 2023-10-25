@@ -120,13 +120,18 @@
 
 
 
-    
-
 ## Recomendaciones
 
-* En el caso de la base de datos de Neo4j, realizar una búsqueda completa en la documentación y emplear las herramientas que posee Neo4j para realizar backups, donde se incluye el Cron Job, en el caso del restore es recomendable utilizar dos contenedores, que obtenga los datos dentro del pod  y otro que ejecute comandos en el pod.
+* En el caso de la base de datos de Neo4j, realizar una búsqueda completa en la documentación y emplear las herramientas que posee Neo4j para realizar backups, donde se incluye el Cron Job, en el caso del restore es recomendable utilizar dos contenedores, que obtenga los datos del cloud provider  y otro que ejecute el comando dentro del pod.
+
+* Es recomendable utilizar la herramienta que tiene el propio couch para la administración de la base datos, este se puede encontrar en el endpoint llamado /_utils. Nos permite hacer todas las operaciones CRUD dentro de una interfaz amigable y sin utilizar programas externos.
+* En caso de manejo de errores y seguimiento de la ejecución de los scripts, es muy útil observar mediante la herramienta Lens, si ingresamos al job y observamos los logs, se puede realizar un seguimiento necesario para observar el flujo del script.
+
 
 ## Conclusiones
 
 * Como conclusión se observa la importancia de realizar backups y la posibilidad de almacenarlo en diferentes lugares, en nuestro caso en un sistema de cloud.
+*  En cuanto a couchdb es muy interesante cómo todas las consultas a la base de datos están implementadas mediante endpoints en una API, esto hace que sea muy sencillo realizar consultas mediante el navegador o una herramienta que posee couch en el endpoint llamado _utils
+* Es interesante como se implementan los backups mediante el uso de los propios enpoints de couch, y no es necesario instalar o requerir otras herramientas fuera de las que brinda couch, el backup se realizó solamente usando las operaciones GET y POST para los endpoints necesarios.
+
 

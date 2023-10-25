@@ -64,6 +64,28 @@
 
 ## Pruebas realizadas
 
+* **Base de datos Mongodb**
+  
+  Para realizar las pruebas, se ingresa al pod de mongo llamado "databases-mongodb" que es el pod de la base de datos de mongo, una vez dentro se ejecuta el comando "mongosh" junto con el URI, root y password para conectarme a mongo.
+
+    Una vez dentro se crea una nueva base llamada "prueba" y dentro una nueva coleccion "new_collection", en esta se inserta un simple documento con las variables "profe" y "materia".
+
+    ![Alt text](mongop1.png)
+
+    A continuación se realiza una ejecución del job de Backup usando un archivo nuevo temporal llamado "temp.yaml" que contiene el job del backup solamente para no tener que correr todo el cluster y borrar el pod de ejecución actual.
+
+    ![Alt text](mongop2.png)
+
+    Lo siguiente es que se borra la colección "new_collection" y simultáneamente se ejecuta el job del restore, de la misma manera que se ejecutó el job de backup, con un nuevo archivo temporal llamado "temp2.yaml".
+
+    ![Alt text](mongop3.png)
+
+    Por último, y como se observa en la imagen, a pesar de haberse borrado la coleccion, esta se restaura gracias al job de restore que se ejecutó.
+
+    ![Alt text](mongop4.png)
+
+
+
 * **Base de datos Neo4j**
 
     A continuación, se presenta como se realizan las pruebas correspondientes para la base de datos de Neo4j.
@@ -151,7 +173,7 @@
 
     ![Alt text](post5.png)
 
-    Al final de los logs, se puede observar  que se cargó correctamente el archivo al bucket de aws.
+    Al final de los logs, se puede observar que se cargó correctamente el archivo al bucket de aws.
 
     ![Alt text](post6.png)
 
@@ -163,19 +185,26 @@
 
     ![Alt text](post8.png)
 
-    Al visualizar la informacion que se encontraba dentro de la base de datos a la que se le realizó el backup, es posible ver que los datos coinciden
+    Al visualizar la información que se encontraba dentro de la base de datos a la que se le realizó el backup, es posible ver que los datos coinciden
 
     ![Alt text](post9.png)
 
 ## Recomendaciones
 
-* En el caso de la base de datos de Neo4j, realizar una búsqueda completa en la documentación y emplear las herramientas que posee Neo4j para realizar backups, donde se incluye el Cron Job, en el caso del restore es recomendable utilizar dos contenedores, que obtenga los datos del cloud provider  y otro que ejecute el comando dentro del pod.
+* En el caso de la base de datos de Neo4j, realizar una búsqueda completa en la documentación y emplear las herramientas que posee Neo4j para realizar backups, donde se incluye el Cron Job, en el caso del restore es recomendable utilizar dos contenedores, que obtenga los datos del cloud provider y otro que ejecute el comando dentro del pod.
 
 * Es recomendable utilizar la herramienta que tiene el propio couch para la administración de la base datos, este se puede encontrar en el endpoint llamado /_utils. Nos permite hacer todas las operaciones CRUD dentro de una interfaz amigable y sin utilizar programas externos.
 * En caso de manejo de errores y seguimiento de la ejecución de los scripts, es muy útil observar mediante la herramienta Lens, si ingresamos al job y observamos los logs, se puede realizar un seguimiento necesario para observar el flujo del script.
 
+* PostgreSQL fue una base de datos un poco diferente a las demás, ya que no requería descargar muchos recursos o buscar en repos externos, recomendamos hacer la conexión a la base de datos mediante el nombre del servicio para no acceder mediante IP
+* Se recomienda el uso de los logs de los JOBs para seguir los movimientos que se dan dentro de los pods, dan información muy útil.
+
 
 ## Conclusiones
+
+* La base de datos PostgreSQL puede resultar sencilla en cuanto a tareas de backup y restore, ya que los comandos que se requieren son fáciles en sintaxis, sin embargo, si no se tiene el cuidado necesario puede complicarse mucho.
+
+* El realizar tareas de backup y restore son muy distintas en cuanto a dificultad, ya que puede ser bastante complicada en algunas, lo complicado puede resultar equivalente a la cantidad de documentación que exista.
 
 * Como conclusión se observa la importancia de realizar backups y la posibilidad de almacenarlo en diferentes lugares, en nuestro caso en un sistema de cloud.
 *  En cuanto a couchdb es muy interesante cómo todas las consultas a la base de datos están implementadas mediante endpoints en una API, esto hace que sea muy sencillo realizar consultas mediante el navegador o una herramienta que posee couch en el endpoint llamado _utils

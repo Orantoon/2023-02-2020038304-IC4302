@@ -50,7 +50,7 @@ couchdb:
     provider: aws
     type: backup
 mariadb:
-  enabled: true
+  enabled: false
   config:
     namespace: default
     connectionString: databases-admin.default.svc.cluster.local:3306
@@ -67,6 +67,7 @@ mariadb:
 
 postgresql:
   enabled: true
+  restore: true
   config:
     namespace: default
     connectionString: databases-admin.default.svc.cluster.local:5432

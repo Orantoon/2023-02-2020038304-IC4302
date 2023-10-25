@@ -14,8 +14,10 @@ gpgcheck=1
 enabled=1
 gpgkey=https://couchdb.apache.org/repo/keys.asc https://couchdb.apache.org/repo/rpm-package-key.asc
 EOT
+
 yum update
-curl -X GET -u admin:$COUCHDB_PASSWORD http://10.1.7.17:5984/couchdb/_all_docs?include_docs=true > /couchdbdump/$DATE/backup.json
+
+curl -X GET -u admin:$COUCHDB_PASSWORD http://databases-couchdb:5984/couchdb/_all_docs?include_docs=true > /couchdbdump/$DATE/backup.json
 cat /couchdbdump/$DATE/backup.json
 aws s3 cp /couchdbdump/$DATE/ s3://$BUCKET_NAME/$BACKUP_PATH/ --recursive
 aws s3 ls s3://$BUCKET_NAME/$BACKUP_PATH/

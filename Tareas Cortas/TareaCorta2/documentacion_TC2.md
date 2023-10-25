@@ -42,6 +42,15 @@
 
     ![Alt text](couchdb3.png)
 
+* **Base de datos Postgresql**
+
+    En la siguiente imagen se presenta la creación de la base de datos de Postgresql.
+
+    ![Alt text](post1.png)
+
+    Como se mencionó al inicio se coloca en true en el apartado de enabled la accion que desea realizar en la base de datos.
+
+    ![Alt text](post2.png)
 
 ## Pruebas realizadas
 

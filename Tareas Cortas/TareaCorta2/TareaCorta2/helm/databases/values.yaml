@@ -11,7 +11,7 @@ kibana:
   replicas: 1
   name: ic4302
 couchdb:
-  enabled: true
+  enabled: false
   couchdbConfig:
     couchdb:
       uuid: decafbaddecafbaddecafbaddecafbad
@@ -36,6 +36,19 @@ neo4j:
     backup:
       enabled: false
 postgresql:
-  enabled: false
-mariadb:
   enabled: true
+  auth:
+    postgresPassword: root
+    database: postgreDB
+    enablePostgresUser: true
+    username: root
+    password: root
+  primary:
+    name: postgreDB
+    user: root
+    postgresPassword: root
+    persistence:
+      enabled: true
+      size: 2Gi
+mariadb:
+  enabled: false

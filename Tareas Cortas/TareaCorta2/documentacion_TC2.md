@@ -10,22 +10,37 @@
 
 ## Instrucciones de funcionamiento
 
+ Para realizar los scripts de cada base de datos es necesario subir la base de datos, en este caso para visualizar su funcionamiento se deberá de ingresar a la carpeta llamada databases, seleccionar el archivo "values.yaml", seguidamente al entrar el archivo el apartado de enabled debe ser cambiado a "true" en el caso de que se encuentre en "false" la base de datos con la que desea trabajar, si alguna de las otra bases de datos se encuentra en "true", se recomienda cambiar a al valor "false", esto para evitar que las de demás bases de datos se ejecuten en simultaneo y unicamente ejecutar la deseada.
+
+
+ Luego deberá de dirigirse a la carpeta llamada "backups", ingresar al archivo "values.yaml", y realizará de igual forma a como se explicó anteriormente, buscar la base de datos en la cual desea trabajar y coloca en "true" el apartado enabled o en caso opuesto "false", segun desee el usuario, de igual forma se recomienda no colocar varias en true el apartado de enabled de las diferentes bases de datos para evitar conflictos.
+
 * **Base de datos Neo4j**
-* 
-  Para realizar el script de Neo4j es necesario subir la base de datos, en este caso para visualizar su funcionamiento se deberá de ingresar a la carpeta llamada databases, seleccionar el archivo "values.yaml", seguidamente al entrar el archivo el apartado de enabled debe ser cambiado a "true" en el caso de que se encuentre en "false", si alguna de las otra bases de datos se encuentra en "true", se recomienda cambiar a al valor "false", esto para evitar que las de demás bases de datos se ejecuten en simultaneo.
+
+    En la siguiente imagen se presenta el caso de utilizar la base de datos de Neo4j.
 
   ![Alt text](neo1.png)
 
-  Luego deberá de dirigirse a la carpeta llamada "backups", ingresar al archivo "values.yaml", al ingresar al archivo se presentan dos opciones en el apartado de Neo4j, si desea realizar un "backup" en el espacio de enabled lo coloca en true, o en el caso de querer realizar  un "restore", de la misma forma se coloca "true", en el espacio de enabled.
-
-
-  A continuación, se presenta una imagen de ejemplo de lo anteriormente dicho.
+    Para probar el funcionamiento del backup y restore en esta base de datos, deberá hacer una accion similar a la mencionada anteriormente, dependiendo de la accion de backup o restore, colocará true en el espacio señalado, esto para visualizar su funcionamiento.
 
    ![Alt text](neo2.png)
 
 * **Base de datos ElasticSearch**
 
 
+* **Base de datos Couchdb**
+
+    Para probar el funcionamiento del backup y restore en esta base de datos, deberá hacer una accion similar a la mencionada anteriormente, dependiendo de la accion de backup o restore, colocará true en el espacio señalado, esto para visualizar su funcionamiento.
+
+    ![Alt text](couchdb1.png)
+
+    Seguidamente en una terminal se ejecuta el comando para instalar el Helm chart(Se logra aprecira en la siguiente imagen) y se visualiza como el job seleccionado anteriormente genera el backup o el restore respectivamente, es posible visualizar la ejecución con la herramienta Lens.
+
+    ![Alt text](couchdb2.png)
+
+    En la siguiente imagen mediante la aplicacion Lens se logra observar que cuando aparece en pantalla la palabra "Succeeded", significa que el job se ejecutó correctamente.
+
+    ![Alt text](couchdb3.png)
 
 
 ## Pruebas realizadas

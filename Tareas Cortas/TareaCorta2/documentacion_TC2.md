@@ -114,10 +114,19 @@
 
     ![Alt text](couchdb5.png)
 
+    En la siguiente imagen se presenta la respuesta de la consulta del script para el restore de la base de datos con un caso exitoso. El espacio ok: true indica que el restablecimiento del documento fue exitoso.
+
+    ![Alt text](couchdb6.png)
+
 
 
     
 
 ## Recomendaciones
 
+* En el caso de la base de datos de Neo4j, realizar una búsqueda completa en la documentación y emplear las herramientas que posee Neo4j para realizar backups, donde se incluye el Cron Job, en el caso del restore es recomendable utilizar dos contenedores, que obtenga los datos dentro del pod  y otro que ejecute comandos en el pod.
+
 ## Conclusiones
+
+* Como conclusión se observa la importancia de realizar backups y la posibilidad de almacenarlo en diferentes lugares, en nuestro caso en un sistema de cloud.
+

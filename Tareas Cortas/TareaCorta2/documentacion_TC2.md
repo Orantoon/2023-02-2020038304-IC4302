@@ -42,6 +42,25 @@
 
     ![Alt text](couchdb3.png)
 
+* **Base de datos Postgresql**
+
+    En la siguiente imagen se presenta la creación de la base de datos de Postgresql.
+
+    ![Alt text](post1.png)
+
+    Como se mencionó al inicio se coloca en true en el apartado de enabled la accion que desea realizar en la base de datos.
+
+    ![Alt text](post2.png)
+
+* **Base de datos Mongodb**
+
+    En la siguiente imagen se presenta la creación de la base de datos de Mongodb.
+
+    ![Alt text](mongo1.png)
+
+    Como se mencionó al inicio se coloca en true en el apartado de enabled la accion que desea realizar en la base de datos, en este caso es Mongodb.
+
+    ![Alt text](mongo2.png)
 
 ## Pruebas realizadas
 
@@ -118,7 +137,35 @@
 
     ![Alt text](couchdb6.png)
 
+* **Base de datos Postgresql**
 
+    Cuandp se ejecuta el comando "helm install backup" con postgresql debe aparecer de la siguiente manera, cuando se realiza el backup.
+
+    ![Alt text](post3.png)
+
+    Cuando se completa correctamente aparece la palabra succeeded.
+
+    ![Alt text](post4.png)
+
+    En el apartado de logs se observa que se descargan las dependencias necesarias.
+
+    ![Alt text](post5.png)
+
+    Al final de los logs, se puede observar  que se cargó correctamente el archivo al bucket de aws.
+
+    ![Alt text](post6.png)
+
+    En la siguiente imagen es posible observar la informacion del bucket de aws, se obtiene que este es el contenido del archivo de backup realizado.
+
+    ![Alt text](post7.png)
+
+    Se logran observar los datos respaldados.
+
+    ![Alt text](post8.png)
+
+    Al visualizar la informacion que se encontraba dentro de la base de datos a la que se le realizó el backup, es posible ver que los datos coinciden
+
+    ![Alt text](post9.png)
 
 ## Recomendaciones
 
@@ -133,5 +180,13 @@
 * Como conclusión se observa la importancia de realizar backups y la posibilidad de almacenarlo en diferentes lugares, en nuestro caso en un sistema de cloud.
 *  En cuanto a couchdb es muy interesante cómo todas las consultas a la base de datos están implementadas mediante endpoints en una API, esto hace que sea muy sencillo realizar consultas mediante el navegador o una herramienta que posee couch en el endpoint llamado _utils
 * Es interesante como se implementan los backups mediante el uso de los propios enpoints de couch, y no es necesario instalar o requerir otras herramientas fuera de las que brinda couch, el backup se realizó solamente usando las operaciones GET y POST para los endpoints necesarios.
+
+
+## Fuentes consultadas.
+* https://docs.couchdb.org/en/stable/install/unix.html
+* https://github.com/apache/couchdb-helm/blob/main/couchdb/Chart.yaml
+* https://www.ionos.com/digitalguide/hosting/technical-matters/work-with-couchdb-from-the-command-line/
+* https://couchdb.apache.org/repo/couchdb.repo
+* https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 

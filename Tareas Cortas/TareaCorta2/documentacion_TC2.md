@@ -58,8 +58,6 @@
     En la imagen anterior se muestra el proceso para realizar el restore, donde se muestra el archivo que se obtuvo de aws y se crea la base de datos.
 
 
-  
-
 * **Base de datos ElasticSearch**
 
     En las siguientes imágenes se presenta como dirigirse a la sección de snapshot, primero se debe de dirigir al cuadro de "menú" y luego se dirige al espacio de "Stack Managment".
@@ -78,15 +76,28 @@
 
     ![Alt text](elas4.png)
 
-    Para la creación del snapshot, se debe ir al apartado de "Create Policy", se le coloca un nombre, el nombre del snapshot, se asignan las configuraciones que va a tener el snapshot, politicas de retención y la duración, para finalizar se presiona el botón de "Create Policy"
+    Para la creación del snapshot, se debe ir al apartado de "Create Policy", se le coloca un nombre, el nombre del snapshot, se asignan las configuraciones que va a tener el snapshot, políticas de retención y la duración, para finalizar se presiona el botón de "Create Policy"
 
     ![Alt text](image.png)
 
-    En la siguiente imagen se observa que ya fue creado el policy, seguidamente se presiona el botón ubicado al lado derecho para correrlo, y ya realizaria el backup, Al finalizar ya aparecerían los snapshots.
+    En la siguiente imagen se observa que ya fue creado el policy, seguidamente se presiona el botón ubicado al lado derecho para correrlo, y ya realizaría el backup, Al finalizar ya aparecerían los snapshots.
 
     ![Alt text](image-1.png)
 
-    En el apartado del restore, se coloca el indice ...
+    En el apartado del restore, se coloca el índice ...
+
+* **Base de datos Couchdb**
+
+    A continuación, se presenta la base de datos que contiene datos de prueba basado en algunas películas.
+
+    ![Alt text](couchdb4.png)
+
+    Seguidamente en la siguiente imagen se presenta la subida del backup al bucket de AWS.
+
+    ![Alt text](couchdb5.png)
+
+
+
     
 
 ## Recomendaciones

@@ -52,6 +52,16 @@
 
     ![Alt text](post2.png)
 
+* **Base de datos Mongodb**
+
+    En la siguiente imagen se presenta la creación de la base de datos de Mongodb.
+
+    ![Alt text](mongo1.png)
+
+    Como se mencionó al inicio se coloca en true en el apartado de enabled la accion que desea realizar en la base de datos, en este caso es Mongodb.
+
+    ![Alt text](mongo2.png)
+
 ## Pruebas realizadas
 
 * **Base de datos Neo4j**

@@ -1,0 +1,6 @@
+config:
+  flask:
+    replicas: 2
+    name: flask
+    image: nereo08/p2flaskapp
+    interval: 1

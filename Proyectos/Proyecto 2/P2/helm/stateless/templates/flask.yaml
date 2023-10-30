@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.config.flask.name }}
+  labels:
+    app: {{ .Values.config.flask.name }}
+spec:
+  replicas: {{ .Values.config.flask.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.config.flask.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.config.flask.name }}
+    spec:
+      containers:
+      - name: {{ .Values.config.flask.name }}
+        image: {{ .Values.config.flask.image }}
+        ports:
+          - containerPort: 5000
+            name: flask
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-service
+spec:
+  selector:
+    app: {{ .Values.config.flask.name }}
+  ports:
+  - name: flask
+    protocol: TCP
+    port: 5000
+    targetPort: flask

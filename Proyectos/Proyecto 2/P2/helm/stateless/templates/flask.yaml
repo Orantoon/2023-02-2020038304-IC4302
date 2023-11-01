@@ -19,12 +19,12 @@ spec:
         image: {{ .Values.config.flask.image }}
         ports:
           - containerPort: 5000
-            name: flask
+            name: apimovies
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-service
+  name: apimovies-service
 spec:
   selector:
     app: {{ .Values.config.flask.name }}
@@ -32,4 +32,4 @@ spec:
   - name: flask
     protocol: TCP
     port: 5000
-    targetPort: flask
+    targetPort: apimovies

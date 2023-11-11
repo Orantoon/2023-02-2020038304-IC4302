@@ -1,0 +1,11 @@
+prometheus:
+  namespace: monitoring
+dashboards:
+  api:
+      name: api
+      file: api.json
+      enable: false
+  mongodb-atlas:
+      name: mongodb-atlas
+      file: mongodb-atlas.json
+      enable: true

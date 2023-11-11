@@ -109,8 +109,10 @@ def get_movies():
         )
         for record in records:
             result.append(record.data())
+            
         print(records[0].data())
-	driver.close()
+	    
         return result,200
+    #driver.close()
         
 

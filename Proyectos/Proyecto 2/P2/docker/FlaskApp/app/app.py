@@ -4,6 +4,9 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from google.cloud.firestore_v1.base_query import FieldFilter
+from neo4j import GraphDatabase, RoutingControl
+from neo4j.exceptions import Neo4jError
+import json
 import hashlib
 
 def encrypt(password):
@@ -34,6 +37,13 @@ def firebaseConnection():
     db = firestore.client()
     return db
 connFire = firebaseConnection()
+
+
+DATABASE_USERNAME = "movies"
+DATABASE_PASSWORD = "movies"
+DATABASE_URL = "neo4j+s://demo.neo4jlabs.com:7687"
+
+driver = GraphDatabase.driver(DATABASE_URL, auth=(DATABASE_USERNAME, DATABASE_PASSWORD))
 
 @app.route("/")
 def hello_world():
@@ -84,5 +94,23 @@ def ruta_post():
         except Exception as e:
             title = f"Error: {str(e)}"
             return e
+
+
+@app.route("/movies")
+def get_movies():
+    result = []
+    with driver.session() as session:
+        query = (
+            """MATCH p=()-[r:WROTE]->() RETURN p LIMIT 25"""
+        )
+        records, summary, keys = driver.execute_query(
+            database_="movies", routing_=RoutingControl.READ,
+            query_=query
+        )
+        for record in records:
+            result.append(record.data())
+        print(records[0].data())
+	driver.close()
+        return result,200
         
 

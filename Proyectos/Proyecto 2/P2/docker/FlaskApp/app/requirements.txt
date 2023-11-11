@@ -1,2 +1,4 @@
 flask 
 flask_cors
+firebase_admin
+google-cloud-firestore

@@ -14,7 +14,10 @@ def encrypt(password):
     return str(hashlib.sha256(password.encode()).hexdigest())
 
 app = Flask(__name__)
-CORS(app)
+origins = [
+    "0.0.0.0:0"
+]
+CORS(app, origins=origins)
 
 
 def firebaseConnection():
@@ -96,7 +99,7 @@ def ruta_post():
             return e
 
 
-@app.route("/movies")
+@app.route("/neo4j/search/", methods=['GET'])
 def get_movies():
     result = []
     with driver.session() as session:
@@ -110,9 +113,12 @@ def get_movies():
         for record in records:
             result.append(record.data())
             
-        print(records[0].data())
+        print(records)
 	    
         return result,200
     #driver.close()
         
 
+# Main
+if __name__ == "__main__":
+    app.run(port=5000, host="0.0.0.0", debug= True)    

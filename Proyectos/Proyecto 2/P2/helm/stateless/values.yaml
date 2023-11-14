@@ -1,0 +1,6 @@
+config:
+  flask:
+    replicas: 1
+    name: apimovies
+    image: aaronortijimn/apimovies
+    interval: 1

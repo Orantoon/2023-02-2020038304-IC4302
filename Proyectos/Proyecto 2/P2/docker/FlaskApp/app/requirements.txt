@@ -1,0 +1,5 @@
+flask 
+flask_cors
+firebase_admin
+google-cloud-firestore
+neo4j

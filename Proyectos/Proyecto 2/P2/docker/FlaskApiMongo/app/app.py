@@ -42,7 +42,7 @@ def RegistroLogs(request, usuario):
 #Rutas
 @app.route("/mongo/search/<valor>", methods=['get'])
 @metrics.counter('search_requests_total_Search', 'Numero de peticiones - Search.')
-#@metrics.timer('search_request_duration_seconds', 'Duracion - Search.')
+@metrics.histogram('search_request_duration_seconds', 'Duracion - Search.')
 def search(valor):
     if valor:
         pipeline =[
@@ -100,7 +100,7 @@ def search(valor):
 
 @app.route("/mongo/searchCast/<valor>", methods=['get'])
 @metrics.counter('search_requests_total_FindActor', 'Numero de peticiones - Find Actor.')
-#@metrics.timer('search_request_duration_seconds', 'Duracion - Find Actor.')
+@metrics.histogram('search_request_duration_seconds', 'Duracion - Find Actor.')
 def findActor(valor):
     if valor:
         pipeline =[
@@ -132,7 +132,7 @@ def findActor(valor):
 
 @app.route("/mongo/searchDirector/<valor>", methods=['get'])
 @metrics.counter('search_requests_total_FindDirector', 'Numero de peticiones - Find Director.')
-#@metrics.timer('search_request_duration_seconds', 'Duracion - Find Director.')
+@metrics.histogram('search_request_duration_seconds', 'Duracion - Find Director.')
 def findDirector(valor):
     if valor:
         pipeline =[
@@ -164,7 +164,7 @@ def findDirector(valor):
 
 @app.route('/mongo/pelicula/<valor>')
 @metrics.counter('search_requests_total_FindMovies', 'Numero de peticiones - Find Movies.')
-#@metrics.timer('search_request_duration_seconds', 'Duracion - Find Movies.')
+@metrics.histogram('search_request_duration_seconds', 'Duracion - Find Movies.')
 def findMovies(valor):
     if valor:
         pipeline =[

@@ -7,7 +7,7 @@ from pymongo.server_api import ServerApi
 from bson.json_util import dumps
 from bson import ObjectId
 from datetime import datetime
-
+#Configuraciones
 app=Flask(__name__)
 CORS(app)
 metrics = PrometheusMetrics(app)
@@ -40,10 +40,9 @@ def RegistroLogs(request, usuario):
         return    
 
 #Rutas
-
 @app.route("/mongo/search/<valor>", methods=['get'])
-@metrics.counter('search_requests_total', 'Numero de peticiones - Search.')
-@metrics.timer('search_request_duration_seconds', 'Duracion - Search.')
+@metrics.counter('search_requests_total_Search', 'Numero de peticiones - Search.')
+#@metrics.timer('search_request_duration_seconds', 'Duracion - Search.')
 def search(valor):
     if valor:
         pipeline =[
@@ -100,8 +99,8 @@ def search(valor):
     
 
 @app.route("/mongo/searchCast/<valor>", methods=['get'])
-@metrics.counter('search_requests_total', 'Numero de peticiones - Find Actor.')
-@metrics.timer('search_request_duration_seconds', 'Duracion - Find Actor.')
+@metrics.counter('search_requests_total_FindActor', 'Numero de peticiones - Find Actor.')
+#@metrics.timer('search_request_duration_seconds', 'Duracion - Find Actor.')
 def findActor(valor):
     if valor:
         pipeline =[
@@ -132,8 +131,8 @@ def findActor(valor):
         return Response(jsonResult, mimetype='application/json')
 
 @app.route("/mongo/searchDirector/<valor>", methods=['get'])
-@metrics.counter('search_requests_total', 'Numero de peticiones - Find Director.')
-@metrics.timer('search_request_duration_seconds', 'Duracion - Find Director.')
+@metrics.counter('search_requests_total_FindDirector', 'Numero de peticiones - Find Director.')
+#@metrics.timer('search_request_duration_seconds', 'Duracion - Find Director.')
 def findDirector(valor):
     if valor:
         pipeline =[
@@ -164,8 +163,8 @@ def findDirector(valor):
         return Response(jsonResult, mimetype='application/json')
 
 @app.route('/mongo/pelicula/<valor>')
-@metrics.counter('search_requests_total', 'Numero de peticiones - Find Movies.')
-@metrics.timer('search_request_duration_seconds', 'Duracion - Find Movies.')
+@metrics.counter('search_requests_total_FindMovies', 'Numero de peticiones - Find Movies.')
+#@metrics.timer('search_request_duration_seconds', 'Duracion - Find Movies.')
 def findMovies(valor):
     if valor:
         pipeline =[

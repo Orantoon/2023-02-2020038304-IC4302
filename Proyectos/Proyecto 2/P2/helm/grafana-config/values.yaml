@@ -6,6 +6,6 @@ dashboards:
       file: api.json
       enable: false
   mongodb-atlas:
-      name: mongodb-atlas
-      file: mongodb-atlas.json
+      name: mongo
+      file: mongo.json
       enable: true

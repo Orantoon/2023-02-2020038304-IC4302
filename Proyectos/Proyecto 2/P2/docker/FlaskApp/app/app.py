@@ -105,11 +105,10 @@ def get_movies(string):
     with driver.session() as session:
         query = (
             f"""MATCH (movie:Movie)
-                WHERE toLower(movie.title) CONTAINS toLower({string}) OR
-                CONTAINS toLower(movie.cast) CONTAINS toLower({string}) OR
-                CONTAINS toLower(movie.plot) CONTAINS toLower({string}) OR
-                CONTAINS toLower(movie.directors) CONTAINS toLower({string})
-                RETURN movie"""
+                WHERE tolower(movie.title) CONTAINS {string} OR
+                    tolower(movie.tagline) CONTAINS {string}
+                RETURN movie
+                """
         )
         records, summary, keys = driver.execute_query(
             database_="movies", routing_=RoutingControl.READ,
@@ -128,7 +127,7 @@ def castAsActor(value):
     result = []
     with driver.session() as session:
         query = (
-            """MATCH (person:Actor {nombre: "$value"})
+            """MATCH (person:Person {name: "$value"})
                 -[:ACTED_IN]->(movie:Movie)
                 RETURN movie"""
         )
@@ -148,7 +147,7 @@ def castAsDirector(value):
     result = []
     with driver.session() as session:
         query = (
-            """MATCH (person:Actor {nombre: "$value"})
+            """MATCH (person:Person {name: "$value"})
                 -[:DIRECTED]->(movie:Movie)
                 RETURN movie"""
         )
@@ -168,7 +167,7 @@ def directorAsDirector(value):
     result = []
     with driver.session() as session:
         query = (
-            """MATCH (person:Director {nombre: "$value"})
+            """MATCH (person:Person {name: "$value"})
                 -[:DIRECTED]->(movie:Movie)
                 RETURN movie"""
         )

@@ -3,7 +3,8 @@ neo4j:
   resources:
     cpu: "0.5"
     memory: "2Gi"
-
+  config:
+     dbms.security.auth_enabled: "false"
   # Uncomment to set the initial password
   #password: "neo4j"
 

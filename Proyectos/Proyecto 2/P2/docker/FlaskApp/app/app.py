@@ -41,10 +41,10 @@ def firebaseConnection():
     return db
 connFire = firebaseConnection()
 
-
-DATABASE_USERNAME = "movies"
-DATABASE_PASSWORD = "movies"
-DATABASE_URL = "neo4j+s://demo.neo4jlabs.com:7687"
+DATABASE = "neo4j"
+DATABASE_USERNAME = "neo4j"
+DATABASE_PASSWORD = "12345678"
+DATABASE_URL = "bolt://localhost:7689"
 
 driver = GraphDatabase.driver(DATABASE_URL, auth=(DATABASE_USERNAME, DATABASE_PASSWORD))
 
@@ -105,13 +105,12 @@ def get_movies(string):
     with driver.session() as session:
         query = (
             f"""MATCH (movie:Movie)
-                WHERE tolower(movie.title) CONTAINS {string} OR
-                    tolower(movie.tagline) CONTAINS {string}
-                RETURN movie
-                """
+                WHERE tolower(movie.title) CONTAINS '{string}' OR
+                    tolower(movie.tagline) CONTAINS '{string}'
+                RETURN movie"""
         )
         records, summary, keys = driver.execute_query(
-            database_="movies", routing_=RoutingControl.READ,
+            database_=DATABASE, routing_=RoutingControl.READ,
             query_=query
         )
         for record in records:
@@ -127,12 +126,12 @@ def castAsActor(value):
     result = []
     with driver.session() as session:
         query = (
-            """MATCH (person:Person {name: "$value"})
-                -[:ACTED_IN]->(movie:Movie)
-                RETURN movie"""
+            f"""MATCH (person:Person {{name: '{value}'}})
+            -[:ACTED_IN]->(movie:Movie)
+            RETURN movie"""
         )
         records, summary, keys = driver.execute_query(
-            database_="movies", routing_=RoutingControl.READ,
+            database_=DATABASE, routing_=RoutingControl.READ,
             query_=query
         )
         for record in records:
@@ -147,12 +146,12 @@ def castAsDirector(value):
     result = []
     with driver.session() as session:
         query = (
-            """MATCH (person:Person {name: "$value"})
-                -[:DIRECTED]->(movie:Movie)
-                RETURN movie"""
+            f"""MATCH (person:Person {{name: '{value}'}})-[r:ACTED_IN]->(movie:Movie),
+                  (person)-[:DIRECTED]->(movie) 
+                  RETURN movie"""
         )
         records, summary, keys = driver.execute_query(
-            database_="movies", routing_=RoutingControl.READ,
+            database_=DATABASE, routing_=RoutingControl.READ,
             query_=query
         )
         for record in records:
@@ -167,12 +166,12 @@ def directorAsDirector(value):
     result = []
     with driver.session() as session:
         query = (
-            """MATCH (person:Person {name: "$value"})
+            f"""MATCH (person:Person {{name: '{value}'}})
                 -[:DIRECTED]->(movie:Movie)
                 RETURN movie"""
         )
         records, summary, keys = driver.execute_query(
-            database_="movies", routing_=RoutingControl.READ,
+            database_=DATABASE, routing_=RoutingControl.READ,
             query_=query
         )
         for record in records:
@@ -187,12 +186,12 @@ def directorAsActor(value):
     result = []
     with driver.session() as session:
         query = (
-            """MATCH (person:Director {nombre: "$value"})
-                -[:ACTED_IN]->(movie:Movie)
-                RETURN movie"""
+            f"""MATCH (person:Person {{name: '{value}'}})-[r:ACTED_IN]->(movie:Movie),
+                  (person)-[:DIRECTED]->(movie) 
+                  RETURN movie"""
         )
         records, summary, keys = driver.execute_query(
-            database_="movies", routing_=RoutingControl.READ,
+            database_=DATABASE, routing_=RoutingControl.READ,
             query_=query
         )
         for record in records:

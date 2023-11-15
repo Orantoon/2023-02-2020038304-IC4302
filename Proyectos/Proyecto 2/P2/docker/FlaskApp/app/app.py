@@ -99,12 +99,17 @@ def ruta_post():
             return e
 
 
-@app.route("/neo4j/search/", methods=['GET'])
-def get_movies():
+@app.route("/neo4j/search/<string>", methods=['GET'])
+def get_movies(string):
     result = []
     with driver.session() as session:
         query = (
-            """MATCH p=()-[r:WROTE]->() RETURN p LIMIT 25"""
+            f"""MATCH (movie:Movie)
+                WHERE toLower(movie.title) CONTAINS toLower({string}) OR
+                CONTAINS toLower(movie.cast) CONTAINS toLower({string}) OR
+                CONTAINS toLower(movie.plot) CONTAINS toLower({string}) OR
+                CONTAINS toLower(movie.directors) CONTAINS toLower({string})
+                RETURN movie"""
         )
         records, summary, keys = driver.execute_query(
             database_="movies", routing_=RoutingControl.READ,
@@ -118,6 +123,85 @@ def get_movies():
         return result,200
     #driver.close()
         
+@app.route("/neo4j/castAsActor/<value>", methods=['GET'])
+def castAsActor(value):
+    result = []
+    with driver.session() as session:
+        query = (
+            """MATCH (person:Actor {nombre: "$value"})
+                -[:ACTED_IN]->(movie:Movie)
+                RETURN movie"""
+        )
+        records, summary, keys = driver.execute_query(
+            database_="movies", routing_=RoutingControl.READ,
+            query_=query
+        )
+        for record in records:
+            result.append(record.data())
+            
+        print(records)
+        
+        return result,200
+    
+@app.route("/neo4j/castAsDirector/<value>", methods=['GET'])
+def castAsDirector(value):
+    result = []
+    with driver.session() as session:
+        query = (
+            """MATCH (person:Actor {nombre: "$value"})
+                -[:DIRECTED]->(movie:Movie)
+                RETURN movie"""
+        )
+        records, summary, keys = driver.execute_query(
+            database_="movies", routing_=RoutingControl.READ,
+            query_=query
+        )
+        for record in records:
+            result.append(record.data())
+            
+        print(records)
+        
+        return result,200
+    
+@app.route("/neo4j/directorAsDirector/<value>", methods=['GET'])
+def directorAsDirector(value):
+    result = []
+    with driver.session() as session:
+        query = (
+            """MATCH (person:Director {nombre: "$value"})
+                -[:DIRECTED]->(movie:Movie)
+                RETURN movie"""
+        )
+        records, summary, keys = driver.execute_query(
+            database_="movies", routing_=RoutingControl.READ,
+            query_=query
+        )
+        for record in records:
+            result.append(record.data())
+            
+        print(records)
+        
+        return result,200
+    
+@app.route("/neo4j/directorAsActor/<value>", methods=['GET'])
+def directorAsActor(value):
+    result = []
+    with driver.session() as session:
+        query = (
+            """MATCH (person:Director {nombre: "$value"})
+                -[:ACTED_IN]->(movie:Movie)
+                RETURN movie"""
+        )
+        records, summary, keys = driver.execute_query(
+            database_="movies", routing_=RoutingControl.READ,
+            query_=query
+        )
+        for record in records:
+            result.append(record.data())
+            
+        print(records)
+        
+        return result,200
 
 # Main
 if __name__ == "__main__":

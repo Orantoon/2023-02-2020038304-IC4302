@@ -66,6 +66,10 @@ driver = GraphDatabase.driver(DATABASE_URL, auth=(DATABASE_USERNAME, DATABASE_PA
 
 ### Generar login en Firebase
 
+def encrypt(password):
+    password = password + "IAmIronMan"
+    return str(hashlib.sha256(password.encode()).hexdigest())
+
 @app.route('/login', methods=['POST'])
 def ruta_post():
     if request.method == 'POST':

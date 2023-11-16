@@ -82,18 +82,17 @@ def ruta_post():
                 })
                 
                 return jsonify({"message":"El usuario no existe, se ha registrado existosamente",
-                                "status":1}), 201
+                                "status":1}), 200
             else:
                 if (user['password'] == encrypt(password)):
                 
                     
                     return jsonify({"message":"logueado existosamente",
-                                    "status":1})
+                                    "status":1}), 200
                 else:
-                    title = "Correo o contraseña incorrecta"
                     
                     return jsonify({"message":f"Correo o contraseña incorrecta",
-                                "status":0})
+                                "status":0}),404
         except Exception as e:
             title = f"Error: {str(e)}"
             return e

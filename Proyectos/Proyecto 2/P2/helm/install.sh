@@ -17,3 +17,5 @@ rm -rf Char.lock
 helm dependency build --skip-refresh
 cd ..
 helm install grafana-config grafana-config
+
+#helm upgrade --install monitoring-stack monitoring-stack

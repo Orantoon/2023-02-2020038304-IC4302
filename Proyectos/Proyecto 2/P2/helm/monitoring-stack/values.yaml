@@ -32,10 +32,10 @@ prometheus:
         scheme : https
         basic_auth:
           username: prom_user_6500c420f49942061dd0c26d
-          password: mvEXRXmglGM2RLFf
+          password: yT8T49BwyJCg9JV0
         http_sd_configs:
           - url: https://cloud.mongodb.com/prometheus/v1.0/groups/6500c420f49942061dd0c26d/discovery
             refresh_interval: 60s
             basic_auth:
               username: prom_user_6500c420f49942061dd0c26d
-              password: mvEXRXmglGM2RLFf
+              password: yT8T49BwyJCg9JV0

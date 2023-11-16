@@ -23,26 +23,26 @@ Para exponer el puerto a internet utilizaremos la aplicación ngrok, para tal ef
 
 ![instalacion3](image-3.png)
 
-La interfaz fue creada con la plataforma Thunkable, para eso se crearon varias páginas para implementar las funcionalidades pedidas. Primero accedemos a la cuenta donde se creó el proyecto, cuando accedemo al sitio tenemos la página de Login donde se introduce el correo y la contraseña que este registrada. En caso de que el correo o contraseña no estén registradas, o no cumpla con el largo de 6 palabras en la contraseña, o deje los espacios en blanco mostrara un mensaje de error. Si los datos están correctos y presiona login, pasa a la siguiente página. Por otro lado, si se presiona: “Register now!” pasamos a la página de registro. 
+La interfaz fue creada con la plataforma Thunkable, para eso se crearon varias páginas para implementar las funcionalidades pedidas. Primero accedemos a la cuenta donde se creó el proyecto, cuando accedemos al sitio tenemos la página de Login donde se introduce el correo y la contraseña que este registrada. En caso de que el correo o contraseña no estén registradas, o no cumpla con el largo de 6 palabras en la contraseña o deje los espacios en blanco, mostrara un mensaje de error. Si los datos están correctos y presiona login, pasa a la siguiente página. Por otro lado, si se presiona: “Register now!” pasamos a la página de registro. 
 
 ![ejecucion1](image-9.png)
 
-En la página de registro tenemos que introducir un correo no registrado, contraseña y re-digitar la contraseña para confirmar, al presionar el botón “Register” creamos un nuevo usuario con el que podamos acceder a la app si los datos son correctos, en el caso contrario de que no cumpla con el largo de 6 palabras en la contraseña, o se deje un espacio en blanco mostrara un mensaje de error.
+En la página de registro tenemos que introducir un correo no registrado, contraseña y re-digitar la contraseña para confirmar, al presionar el botón “Register” creamos un nuevo usuario con el que podamos acceder a la app si los datos son correctos, en el caso contrario de que no cumpla con el largo de 6 palabras en la contraseña o se deje un espacio en blanco, mostrara un mensaje de error.
 
 ![prueba6](image-10.png)
 
 ![prueba7](image-11.png)
 
-Luego de acceder al sistema, se muestran las dos bases de datos con las cuales puede seleccionar uno para realizar la búsqueda, o cerrar sesión con el botón que se encuentra al final de la página.  
+Luego de acceder al sistema, se muestran las dos bases de datos de las cuales puede seleccionar una para realizar la búsqueda, o cerrar sesión con el botón que se encuentra al final de la página.  
 
 ![prueba8](image-12.png)
 
 
-Luego de seleccionar una base de datos, se mostrará un menú en donde podrás seleccionar búsqueda general al presionar el botón "Search a Movie", por otro lado, al presionar "Advanced Search" se mostrará la página para búsqueda avanzada.
+Luego de seleccionar una base de datos, se mostrará un menú en donde se podrá seleccionar búsqueda general al presionar el botón "Search a Movie", por otro lado, al presionar "Advanced Search" se mostrará la página para búsqueda avanzada.
 
 ![Alt text](imagen27.jpg)
 
-Al presionar "Search a Movie" muestra la siguiente pantalla donde tenemos un textbox donde podremos agregar un valor de búsqueda general ya sea el título, nombre de un actor, director o plot. Si queremos volver a la página anterior se presiona "Back Menú".
+Al presionar "Search a Movie" muestra la siguiente pantalla donde tenemos un textbox donde podremos agregar un valor de búsqueda general: ya sea el título, nombre de un actor, director o plot. Si queremos volver a la página anterior se presiona "Back Menú".
 
 ![prueba26](imagen26.jpg)
 
@@ -50,32 +50,32 @@ Al introducir un valor de búsqueda y presionar el botón “search” se desple
 
 ![prueba10](image-14.png)
 
-En el caso de que la búsqueda devuelva muchos resultados se habilitaran las flechas para mostrar los demás documentos.
+En el caso de que la búsqueda devuelva muchos resultados, se habilitaran las flechas para mostrar los demás documentos.
 
 ![prueba11](image-15.png)
 
-Cuando se accede a un documento se redirige a la página que se aprecia en la siguiente imagen, donde muestra todos los datos que contiene el documento.
+Cuando se accede a un documento, se redirige a la página que se aprecia en la siguiente imagen, donde muestra todos los datos que contiene el documento.
 
 ![pruebas23](imagen28.jpg)
 
 ![prueba24](imagen29.jpg)
 
-Si presionamos el bóton "Advanced Search" entramos a la página de advanced search donde tenemos dos campos de entrada uno para buscar por actor y otro para director, aparte se tienen las opciones para realizar la busqueda de las peliculas donde el actor o director actua o dirigen.
+Si se presiona el bóton "Advanced Search" entramos a la página de advanced search donde tenemos dos campos de entrada uno para buscar por actor y otro para director, además se tienen las opciones para realizar la busqueda de las películas donde el actor o director actúa o dirigen.
 
 ![prueba25](imagen30.jpg)
 
-Si seleccionamos alguna de las opciones del menú de Advanced Search se nos mostraran las peliculas resultante con el criterio definido.
+Si seleccionamos alguna de las opciones del menú de Advanced Search se nos mostrarán las peliculas resultantes con el criterio definido.
 
 ![Prueba26](imagen31.jpg)
 
-Si al realizar una busqueda de un valor que no coincide con los datos almacenados en la base de datos se mostrara un mensaje de error.
+Si se realiza una busqueda de un valor que no coincide con los datos almacenados en la base de datos, se mostrara un mensaje de error.
 
 ![prueba27](imagen32-1.jpg)
 
 ![prueba28](imagen33-1.jpg)
 
 ## Pruebas Realizadas
-Para probar las diferentes rutas de la api se empleo la herramienta postman, empleada en experiencias pasadas. Para ejecutar el programa necesitamos realizar los pasos de la sección pasada en especial exponer el pod en un puerto de la maquina. Luego de realizar eso nada más agregamos la ruta en la entrada, seleccionamos el metodo que definimos, agregamos el valor de busqueda y le damos al boton **Send**. A continuación se muestran las diferentes pruebas en el caso de Mongo.
+Para probar las diferentes rutas de la api se empleo la herramienta Postman, empleada en experiencias pasadas. Para ejecutar el programa, necesitamos realizar los pasos de la sección pasada, en especial exponer el pod en un puerto de la máquina. Luego de realizar eso nada más agregamos la ruta en la entrada, seleccionamos el metodo que definimos, agregamos el valor de busqueda y le damos al boton **Send**. A continuación se muestran las diferentes pruebas en el caso de Mongo.
 
 https://musical-kite-probably.ngrok-free.app/mongo/search/\<valor\>: Búsqueda de películas general en los documentos.
 
@@ -92,10 +92,11 @@ https://musical-kite-probably.ngrok-free.app/mongo/searchDirector/\<valor\>: Bú
 https://musical-kite-probably.ngrok-free.app/mongo/searchCast/\<valor\>: Búsqueda de películas donde la persona actúa.
 
 ![prueba4](image-7.png)
----
-Para Neo4j tenemos las siguientes pruebas desde Postman, donde se muestran los resultados con sus diferentes rutas con su pequeña descripción sobre su función.
 
-https://musical-kite-probably.ngrok-free.app/neo4j/search\<valor\>: búsqueda general en los documentos.
+---
+Para Neo4j tenemos las siguientes pruebas desde Postman, donde se muestran los resultados con sus diferentes rutas y con una pequeña descripción de su función.
+
+https://musical-kite-probably.ngrok-free.app/neo4j/search\<valor\>: Búsqueda general en los documentos.
 
 ![prueba12](image-18.png)
 
@@ -118,14 +119,14 @@ https://musical-kite-probably.ngrok-free.app/neo4j/directorAsActor/\<valor\>: B�
 ---
 ## Mapping
 
-Para emplear un índice de búsqueda en Mongo Atlas se realizó el siguiente mapeo, donde se definieron los campos cast, directors, plot, title. Para mejorar las búsquedas por cada palabra se definió cada campo como string para emplear el analizador de textos, además, ya que son los campos donde se realizan más búsquedas y que sean más precisas. En la siguiente imagen vemos la estructuras del mapping.
+Para emplear un índice de búsqueda en Mongo Atlas se realizó el siguiente mapeo, donde se definieron los campos *cast*, *directors*, *plot* y *title*. Para mejorar las búsquedas por cada palabra se definió cada campo como string para emplear el analizador de textos, también porque son los campos donde se realizan más búsquedas y que sean más precisas. En la siguiente imagen vemos la estructuras del mapping.
 
 ![mapping1](image-26.png)
 ![mapping2](image-27.png)
 
 ## **Pruebas unitarias**
 
-En las siguientes imagenes se presentan el codigo realizado en **test.py** donde se realizan las pruebas con las APIs. En las primeras pruebas son realizadas con la sección de MongoDB Atlas, comprobando que las diferentes rutas devuelvan codigo de estado igual a 200 que significa que el request fue exitoso, además se verifica que el contenido retornado por el request no sea cero ante los casos de prueba programados. El codigo podemos apreciarlo en la siguiente imagen.
+En las siguientes imagenes se presentan el codigo realizado en **test.py** donde se realizan las pruebas con las APIs. En las primeras pruebas son realizadas con la sección de MongoDB Atlas, comprobando que las diferentes rutas devuelvan código de estado igual a 200, que significa que el request fue exitoso, además se verifica que el contenido retornado por el request no sea cero ante los casos de prueba programados. El codigo podemos apreciarlo en la siguiente imagen.
 
 ![unitests1](image.png)
 
@@ -133,7 +134,7 @@ El resultado lo podemos observar en la imagen de abajo:
 
 ![unitests2](image-22.png)
 
-En el caso de Neo4j, se realizan pruebas entre las diferentes rutas comprobando que cada request devuelva de Código de estado igual a 200. El código es el siguiente:
+En el caso de Neo4j, se realizan pruebas entre las diferentes rutas comprobando que cada request devuelva de código de estado igual a 200. El código es el siguiente:
 
 ![unitests3](image-24.png)
 
@@ -145,17 +146,17 @@ El resultado lo apreciamos en la siguiente imagen.
 
 ## **Conclusiones y Recomendaciones**
 
-- Gracias a experiencias previas empleando el motor de base de datos MongoDB Atlas, se encontró otros operadores que proveen un mejor resultado a las búsquedas, además de poder emplear otras opciones que permite los drivers de Python.
+- Gracias a experiencias previas empleando el motor de base de datos MongoDB Atlas, se encontró otros operadores que proveen un mejor resultado a las búsquedas, además de poder emplear otras opciones que permiten los drivers de Python.
 
-- Aun con lo implementado, la documentación posee una gran variedad de información para mejorar los resultados de búsqueda, recomendamos realizar pruebas con dataset ya cargados por el proveedor y realizar una compresión y emplear las herramientas que aporta Mongo Atlas para comprobar un cual provee un mejor rendimiento.
+- Aun con lo implementado, la documentación posee una gran variedad de información para mejorar los resultados de búsqueda, recomendamos realizar pruebas con dataset ya cargados por el proveedor y realizar una compresión y emplear las herramientas que aporta Mongo Atlas para comprobar cual provee un mejor rendimiento.
 
-- El manejo de emplear Thunkable para diseñar la interfaz de usuarios tiene sus puntos interesantes, pero el manejo de bloques se dificulto por un manejo menos libre de las tecnologías empleadas anteriormente.
+- El manejo de emplear Thunkable para diseñar la interfaz de usuarios tiene sus puntos interesantes, pero el manejo de bloques se dificultó por un manejo menos libre de las tecnologías empleadas anteriormente.
 
-- Para manejar Thunkable es necesario tener un orden al trabajar las secciones de la aplicación y tener especial cuidado cuando se estan empleando ciclos.
+- Para manejar Thunkable es necesario tener un orden al trabajar las secciones de la aplicación y hay que tener especial cuidado cuando se están empleando ciclos.
 
-- El uso de Bases de datos fue muy interesante debido a que las consultas tienen una estructura similar a las SQL, pero debido a que las relaciones entre nodos son más explicitas y significativas podemos comprender como se conectan entre estos, tambien fue de mucha utilidad la documentación que tiene Neo4j, la cual contiene muchos ejemplos que fueron de utilidad para realizar las consultas.
+- El uso de bases de datos fue muy interesante debido a que las consultas tienen una estructura similar a las SQL, pero debido a que las relaciones entre nodos son más explicitas y significativas podemos comprender como se conectan, también fue de mucha utilidad la documentación que tiene Neo4j, la cual contiene muchos ejemplos que fueron de utilidad para realizar las consultas.
 
-- Para futuros desarrollos de proyectos relacionados con neo4j se recomienda el uso de una base de datos local, debido a que en ocasiones la BD demo de peliculas puede no estar disponible, en este caso se utilizó Ne4j desktop el cual brinda una forma sencilla de crear BD de grafos de manera local.
+- Para futuros desarrollos de proyectos relacionados con neo4j se recomienda el uso de una base de datos local, debido a que en ocasiones la BD demo de películas puede no estar disponible, en este caso se utilizó Ne4j Desktop el cual brinda una forma sencilla de crear BD de grafos de manera local.
 
 - En el desarrollo de los proyectos nos hemos dado cuenta de que Firebase es una base de datos con la que manejar usuarios se convierte en una tarea bastante sencilla de realizar, tiene una velocidad de respuesta bastante buena y tiene una disponibilidad prácticamente constante, lo que la hace una excelente opción para estas tareas.
 

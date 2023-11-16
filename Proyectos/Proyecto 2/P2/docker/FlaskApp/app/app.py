@@ -44,7 +44,7 @@ connFire = firebaseConnection()
 DATABASE = "neo4j"
 DATABASE_USERNAME = "neo4j"
 DATABASE_PASSWORD = "12345678"
-DATABASE_URL = "bolt://localhost:7689"
+DATABASE_URL = "bolt://4.tcp.ngrok.io:12482"  #Colocar
 
 driver = GraphDatabase.driver(DATABASE_URL, auth=(DATABASE_USERNAME, DATABASE_PASSWORD))
 
@@ -145,7 +145,13 @@ def castAsActor(value):
         query = (
             f"""MATCH (person:Person {{name: '{value}'}})
             -[:ACTED_IN]->(movie:Movie)
-            RETURN movie"""
+            WITH movie
+
+            OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
+            WITH movie, COLLECT(person) AS cast
+
+            OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
+            RETURN movie, cast, COLLECT(person) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,
@@ -164,8 +170,14 @@ def castAsDirector(value):
     with driver.session() as session:
         query = (
             f"""MATCH (person:Person {{name: '{value}'}})-[r:ACTED_IN]->(movie:Movie),
-                  (person)-[:DIRECTED]->(movie) 
-                  RETURN movie"""
+                (person)-[:DIRECTED]->(movie) 
+                WITH movie
+            
+                OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
+                WITH movie, COLLECT(person) AS cast
+
+                OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
+                RETURN movie, cast, COLLECT(person) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,
@@ -185,7 +197,13 @@ def directorAsDirector(value):
         query = (
             f"""MATCH (person:Person {{name: '{value}'}})
                 -[:DIRECTED]->(movie:Movie)
-                RETURN movie"""
+                WITH movie
+            
+                OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
+                WITH movie, COLLECT(person) AS cast
+
+                OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
+                RETURN movie, cast, COLLECT(person) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,
@@ -204,8 +222,14 @@ def directorAsActor(value):
     with driver.session() as session:
         query = (
             f"""MATCH (person:Person {{name: '{value}'}})-[r:ACTED_IN]->(movie:Movie),
-                  (person)-[:DIRECTED]->(movie) 
-                  RETURN movie"""
+                (person)-[:DIRECTED]->(movie) 
+                WITH movie
+            
+                OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
+                WITH movie, COLLECT(person) AS cast
+
+                OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
+                RETURN movie, cast, COLLECT(person) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,

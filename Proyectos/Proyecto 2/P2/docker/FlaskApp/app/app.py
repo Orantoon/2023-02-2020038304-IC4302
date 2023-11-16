@@ -105,9 +105,15 @@ def get_movies(string):
     with driver.session() as session:
         query = (
             f"""MATCH (movie:Movie)
-                WHERE tolower(movie.title) CONTAINS '{string}' OR
-                    tolower(movie.tagline) CONTAINS '{string}'
-                RETURN movie"""
+					WHERE tolower(movie.title) CONTAINS tolower("Tom Hanks") OR
+						  tolower(movie.tagline) CONTAINS tolower("Tom Hanks")
+					RETURN movie
+
+					UNION
+
+					MATCH (person:Person)-[:ACTED_IN|DIRECTED]->(movie:Movie)
+					WHERE tolower(person.name) CONTAINS tolower("Tom Hanks")
+					RETURN movie;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,

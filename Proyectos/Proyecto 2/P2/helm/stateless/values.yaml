@@ -2,5 +2,5 @@ config:
   flask:
     replicas: 1
     name: apimovies
-    image: aaronortijimn/apimovies
+    image: joctan04/p2api
     interval: 1

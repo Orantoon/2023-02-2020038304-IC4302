@@ -60,7 +60,7 @@ connFire = firebaseConnection()
 DATABASE = "neo4j"
 DATABASE_USERNAME = "neo4j"
 DATABASE_PASSWORD = "12345678"
-DATABASE_URL = "bolt://localhost:7689" ##### IMPORTANTE: CAMBIAR ESTO POR LA URL DE SU BASE DE DATOS NEO4J
+DATABASE_URL = "bolt://4.tcp.ngrok.io:12482" ##### IMPORTANTE: CAMBIAR ESTO POR LA URL DE SU BASE DE DATOS NEO4J
 
 driver = GraphDatabase.driver(DATABASE_URL, auth=(DATABASE_USERNAME, DATABASE_PASSWORD))
 
@@ -133,7 +133,7 @@ def RegistroLogs(request, usuario):
 #Rutas
 @app.route("/mongo/search/<valor>", methods=['get'])
 @metrics.counter('search_requests_total_Search', 'Numero de peticiones - Search.')
-@metrics.histogram('search_request_duration_seconds', 'Duracion - Search.')
+@metrics.histogram('search_request_duration_seconds_Search', 'Duracion - Search.')
 def search(valor):
     if valor:
         pipeline =[
@@ -191,7 +191,7 @@ def search(valor):
 
 @app.route("/mongo/searchCast/<valor>", methods=['get'])
 @metrics.counter('search_requests_total_FindActor', 'Numero de peticiones - Find Actor.')
-@metrics.histogram('search_request_duration_seconds', 'Duracion - Find Actor.')
+@metrics.histogram('search_request_duration_seconds_FindActor', 'Duracion - Find Actor.')
 def findActor(valor):
     if valor:
         pipeline =[
@@ -223,7 +223,7 @@ def findActor(valor):
 
 @app.route("/mongo/searchDirector/<valor>", methods=['get'])
 @metrics.counter('search_requests_total_FindDirector', 'Numero de peticiones - Find Director.')
-@metrics.histogram('search_request_duration_seconds', 'Duracion - Find Director.')
+@metrics.histogram('search_request_duration_seconds_FindDirector', 'Duracion - Find Director.')
 def findDirector(valor):
     if valor:
         pipeline =[
@@ -255,7 +255,7 @@ def findDirector(valor):
 
 @app.route('/mongo/pelicula/<valor>')
 @metrics.counter('search_requests_total_FindMovies', 'Numero de peticiones - Find Movies.')
-@metrics.histogram('search_request_duration_seconds', 'Duracion - Find Movies.')
+@metrics.histogram('search_request_duration_seconds_FindMovies', 'Duracion - Find Movies.')
 def findMovies(valor):
     if valor:
         pipeline =[
@@ -319,7 +319,13 @@ def castAsActor(value):
         query = (
             f"""MATCH (person:Person {{name: '{value}'}})
             -[:ACTED_IN]->(movie:Movie)
-            RETURN movie"""
+            WITH movie
+
+            OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
+            WITH movie, COLLECT(person) AS cast
+
+            OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
+            RETURN movie, cast, COLLECT(person) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,
@@ -338,8 +344,14 @@ def castAsDirector(value):
     with driver.session() as session:
         query = (
             f"""MATCH (person:Person {{name: '{value}'}})-[r:ACTED_IN]->(movie:Movie),
-                  (person)-[:DIRECTED]->(movie) 
-                  RETURN movie"""
+                (person)-[:DIRECTED]->(movie) 
+                WITH movie
+            
+                OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
+                WITH movie, COLLECT(person) AS cast
+
+                OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
+                RETURN movie, cast, COLLECT(person) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,
@@ -359,7 +371,13 @@ def directorAsDirector(value):
         query = (
             f"""MATCH (person:Person {{name: '{value}'}})
                 -[:DIRECTED]->(movie:Movie)
-                RETURN movie"""
+                WITH movie
+            
+                OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
+                WITH movie, COLLECT(person) AS cast
+
+                OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
+                RETURN movie, cast, COLLECT(person) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,
@@ -378,8 +396,14 @@ def directorAsActor(value):
     with driver.session() as session:
         query = (
             f"""MATCH (person:Person {{name: '{value}'}})-[r:ACTED_IN]->(movie:Movie),
-                  (person)-[:DIRECTED]->(movie) 
-                  RETURN movie"""
+                (person)-[:DIRECTED]->(movie) 
+                WITH movie
+            
+                OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
+                WITH movie, COLLECT(person) AS cast
+
+                OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
+                RETURN movie, cast, COLLECT(person) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,
@@ -390,7 +414,7 @@ def directorAsActor(value):
             
         print(records)
         
-        return result,200
+        return result,200
 
 if __name__ == "__main__":
     app.run(port=5000, host="0.0.0.0", debug= True)    

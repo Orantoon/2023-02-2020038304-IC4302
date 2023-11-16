@@ -105,14 +105,14 @@ def get_movies(string):
     with driver.session() as session:
         query = (
             f"""MATCH (movie:Movie)
-					WHERE tolower(movie.title) CONTAINS tolower("Tom Hanks") OR
-						  tolower(movie.tagline) CONTAINS tolower("Tom Hanks")
+					WHERE tolower(movie.title) CONTAINS tolower("{string}") OR
+						  tolower(movie.tagline) CONTAINS tolower("{string}")
 					RETURN movie
 
 					UNION
 
 					MATCH (person:Person)-[:ACTED_IN|DIRECTED]->(movie:Movie)
-					WHERE tolower(person.name) CONTAINS tolower("Tom Hanks")
+					WHERE tolower(person.name) CONTAINS tolower("{string}")
 					RETURN movie;"""
         )
         records, summary, keys = driver.execute_query(

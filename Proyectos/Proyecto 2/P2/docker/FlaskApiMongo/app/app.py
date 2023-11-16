@@ -60,8 +60,8 @@ connFire = firebaseConnection()
 DATABASE = "neo4j"
 DATABASE_USERNAME = "neo4j"
 DATABASE_PASSWORD = "12345678"
-DATABASE_URL = "bolt://4.tcp.ngrok.io:12482" ##### IMPORTANTE: CAMBIAR ESTO POR LA URL DE SU BASE DE DATOS NEO4J
-
+DATABASE_URL = "neo4j+s://demo.neo4jlabs.com:7687" ##### IMPORTANTE: CAMBIAR ESTO POR LA URL DE SU BASE DE DATOS NEO4J
+#"bolt://4.tcp.ngrok.io:12482"
 driver = GraphDatabase.driver(DATABASE_URL, auth=(DATABASE_USERNAME, DATABASE_PASSWORD))
 
 ### Generar login en Firebase

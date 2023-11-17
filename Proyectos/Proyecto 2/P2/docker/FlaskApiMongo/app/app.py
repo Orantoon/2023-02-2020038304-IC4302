@@ -20,13 +20,11 @@ import hashlib
 
 #Configuraciones
 app=Flask(__name__)
-origins = [
-    "0.0.0.0:0"
-]
-CORS(app, origins=origins)
+
+CORS(app)
 metrics = PrometheusMetrics(app)
 
-uri = 'mongodb+srv://admin:Tgw4ykcov122w5aa@basedatosadj.uzcvkif.mongodb.net/?retryWrites=true&w=majority'
+uri = 'mongodb+srv://admin:yT8T49BwyJCg9JV0@basedatosadj.uzcvkif.mongodb.net/?retryWrites=true&w=majority'
 client = MongoClient(uri)
 #Database and collection
 dbMovies= client.sample_mflix
@@ -57,9 +55,9 @@ def firebaseConnection():
     return db
 connFire = firebaseConnection()
 
-DATABASE = "neo4j"
-DATABASE_USERNAME = "neo4j"
-DATABASE_PASSWORD = "12345678"
+DATABASE = "movies"
+DATABASE_USERNAME = "movies"
+DATABASE_PASSWORD = "movies"
 DATABASE_URL = "neo4j+s://demo.neo4jlabs.com:7687" ##### IMPORTANTE: CAMBIAR ESTO POR LA URL DE SU BASE DE DATOS NEO4J
 #"bolt://4.tcp.ngrok.io:12482"
 driver = GraphDatabase.driver(DATABASE_URL, auth=(DATABASE_USERNAME, DATABASE_PASSWORD))
@@ -74,6 +72,7 @@ def encrypt(password):
 def ruta_post():
     if request.method == 'POST':
         jsonCred = request.get_json()
+        print(jsonCred)
         email = jsonCred["email"]
         password = jsonCred["password"]
         
@@ -287,10 +286,10 @@ def get_movies(string):
                 WITH movie
 
                 OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
-                WITH movie, COLLECT(person) AS cast
+                WITH movie, COLLECT(person.name) AS cast
 
                 OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
-                RETURN movie, cast, COLLECT(person) AS directors
+                RETURN movie, cast, COLLECT(person.name) AS directors
 
                 UNION
 
@@ -299,10 +298,10 @@ def get_movies(string):
                 WITH movie
 
                 OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
-                WITH movie, COLLECT(person) AS cast
+                WITH movie, COLLECT(person.name) AS cast
 
                 OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
-                RETURN movie, cast, COLLECT(person) AS directors;"""
+                RETURN movie, cast, COLLECT(person.name) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,
@@ -326,10 +325,10 @@ def castAsActor(value):
             WITH movie
 
             OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
-            WITH movie, COLLECT(person) AS cast
+            WITH movie, COLLECT(person.name) AS cast
 
             OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
-            RETURN movie, cast, COLLECT(person) AS directors;"""
+            RETURN movie, cast, COLLECT(person.name) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,
@@ -352,10 +351,10 @@ def castAsDirector(value):
                 WITH movie
             
                 OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
-                WITH movie, COLLECT(person) AS cast
+                WITH movie, COLLECT(person.name) AS cast
 
                 OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
-                RETURN movie, cast, COLLECT(person) AS directors;"""
+                RETURN movie, cast, COLLECT(person.name) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,
@@ -378,10 +377,10 @@ def directorAsDirector(value):
                 WITH movie
             
                 OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
-                WITH movie, COLLECT(person) AS cast
+                WITH movie, COLLECT(person.name) AS cast
 
                 OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
-                RETURN movie, cast, COLLECT(person) AS directors;"""
+                RETURN movie, cast, COLLECT(person.name) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,
@@ -404,10 +403,10 @@ def directorAsActor(value):
                 WITH movie
             
                 OPTIONAL MATCH (person:Person)-[:ACTED_IN]->(movie)
-                WITH movie, COLLECT(person) AS cast
+                WITH movie, COLLECT(person.name) AS cast
 
                 OPTIONAL MATCH (person:Person)-[:DIRECTED]->(movie)
-                RETURN movie, cast, COLLECT(person) AS directors;"""
+                RETURN movie, cast, COLLECT(person.name) AS directors;"""
         )
         records, summary, keys = driver.execute_query(
             database_=DATABASE, routing_=RoutingControl.READ,
@@ -421,5 +420,5 @@ def directorAsActor(value):
         return result,200
 
 if __name__ == "__main__":
-    app.run(port=5000, host="0.0.0.0", debug= True)    
+    app.run(port=5001, host="0.0.0.0", debug= True)    
        

@@ -72,7 +72,6 @@ def encrypt(password):
 def ruta_post():
     if request.method == 'POST':
         jsonCred = request.get_json()
-        print(jsonCred)
         email = jsonCred["email"]
         password = jsonCred["password"]
         
@@ -309,8 +308,6 @@ def get_movies(string):
         )
         for record in records:
             result.append(record.data())
-            
-        print(records)
 	    
         return result,200
     #driver.close()
@@ -336,8 +333,6 @@ def castAsActor(value):
         )
         for record in records:
             result.append(record.data())
-            
-        print(records)
         
         return result,200
     
@@ -362,9 +357,7 @@ def castAsDirector(value):
         )
         for record in records:
             result.append(record.data())
-            
-        print(records)
-        
+                   
         return result,200
     
 @app.route("/neo4j/directorAsDirector/<value>", methods=['GET'])
@@ -388,8 +381,6 @@ def directorAsDirector(value):
         )
         for record in records:
             result.append(record.data())
-            
-        print(records)
         
         return result,200
     
@@ -415,8 +406,6 @@ def directorAsActor(value):
         for record in records:
             result.append(record.data())
             
-        print(records)
-        
         return result,200
 
 if __name__ == "__main__":
